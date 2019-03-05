@@ -8,7 +8,7 @@ an easy-to-use portal gun for minecraft
 
 <p align="center">
   <a href="https://github.com/insanj/portal/releases">
-    <img src="https://img.shields.io/github/release/insanj/portal.svg" />
+    <img src="https://img.shields.io/github/tag/insanj/portal.svg" />
   </a>
 
   <a href="https://github.com/insanj/portal/">
