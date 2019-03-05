@@ -20,9 +20,9 @@ public class Portal extends JavaPlugin {
 		
 		getCommand("portalgun").setExecutor(new PortalCommandExecutor());
 		registerEvents(this, new PortalClickListener());
-		
-		ShapedRecipe rstar = PortalGunRecipe.setUpRecipe();
-		getServer().addRecipe(rstar);
+        
+		ShapedRecipe portalGunRecipe = PortalGunRecipe.setUpRecipe();
+		getServer().addRecipe(portalGunRecipe);
 	}
 	
 	@Override
@@ -31,50 +31,7 @@ public class Portal extends JavaPlugin {
 	}
 	
 	public static void Sign(Player player) {
-        signGui.open(player, new String[] { "X", "Y", "Z", "WORLD" }, new PortalSignGUI.SignGUIListener() {
-            @Override
-            public void onSignDone(Player player, String[] lines) {
-                if (Bukkit.getWorld(lines[3]) != null) {
-                	
-                	
-                	Bukkit.getScheduler().scheduleAsyncRepeatingTask(Portal.getPlugin(), new Runnable() {
-    					public void run() {
-    						player.spawnParticle(Particle.VILLAGER_HAPPY, PortalClickListener.loc, 1);
-    					}
-    				}, 3, 3);
-                	
-                	Bukkit.getScheduler().scheduleAsyncRepeatingTask(Portal.getPlugin(), new Runnable() {
-    					public void run( ) {
-    						for (Player p : Bukkit.getOnlinePlayers()) {
-	    						if (p.getLocation() == PortalClickListener.loc) {
-	    							player.teleport(new Location(Bukkit.getWorld(lines[3]), Integer.parseInt(lines[0]), Integer.parseInt(lines[1]), Integer.parseInt(lines[2])));
-	    						}
-    						}
-    					}
-    				}, 3, 3);
-                } else if (lines[3] == null){
-
-                	
-                	Bukkit.getScheduler().scheduleAsyncRepeatingTask(Portal.getPlugin(), new Runnable() {
-    					public void run() {
-    						player.spawnParticle(Particle.VILLAGER_HAPPY, PortalClickListener.loc, 1);
-    					}
-    				}, 3, 3);
-                	
-                	Bukkit.getScheduler().scheduleAsyncRepeatingTask(Portal.getPlugin(), new Runnable() {
-    					public void run( ) {
-    						for (Player p : Bukkit.getOnlinePlayers()) {
-	    						if (p.getLocation() == PortalClickListener.loc) {
-	    							player.teleport(new Location(player.getLocation().getWorld(), Integer.parseInt(lines[0]), Integer.parseInt(lines[1]), Integer.parseInt(lines[2])));
-	    						}
-    						}
-    					}
-    				}, 3, 3);
-                } else {
-                	player.sendMessage("Invalid Arguments");
-                }
-            }
-        });
+        signGui.open(player, new String[] { "X", "Y", "Z", "WORLD" }, new PortalSignGUIListener() );
     }
 	
 	// Registers events for each listener

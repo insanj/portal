@@ -24,22 +24,22 @@ public class PortalSignGUI {
 
     protected ProtocolManager protocolManager;
     protected PacketAdapter packetListener;
-    protected Map<String, SignGUIListener> listeners;
+    protected Map<String, PortalSignGUIListener> listeners;
     protected Map<String, Vector> signLocations;
     
     public PortalSignGUI(Plugin plugin) {
         protocolManager = ProtocolLibrary.getProtocolManager();        
-        packetListener = new PacketListener(plugin);
+        packetListener = new PortalSignGUIPacketListener(plugin, this);
         protocolManager.addPacketListener(packetListener);
-        listeners = new ConcurrentHashMap<String, SignGUIListener>();
+        listeners = new ConcurrentHashMap<String, PortalSignGUIListener>();
         signLocations = new ConcurrentHashMap<String, Vector>();
     }
     
-    public void open(Player player, SignGUIListener response) {
+    public void open(Player player, PortalSignGUIListener response) {
         open(player, (Location)null, response);
     }
     
-    public void open(Player player, Location signLocation, SignGUIListener response) {
+    public void open(Player player, Location signLocation, PortalSignGUIListener response) {
         int x = 0, y = 0, z = 0;
         if (signLocation != null) {
             x = signLocation.getBlockX();
@@ -59,7 +59,7 @@ public class PortalSignGUI {
         }
     }
     
-    public void open(Player player, String[] defaultText, SignGUIListener response) {
+    public void open(Player player, String[] defaultText, PortalSignGUIListener response) {
         List<PacketContainer> packets = new ArrayList<PacketContainer>();
         
         int x = 0, y = 0, z = 0;
@@ -103,42 +103,4 @@ public class PortalSignGUI {
         listeners.clear();
         signLocations.clear();
     }
-    
-    public interface SignGUIListener {
-        public void onSignDone(Player player, String[] lines);
-    }
-    
-    class PacketListener extends PacketAdapter {
-        
-        Plugin plugin;
-        
-        public PacketListener(Plugin plugin) {
-            super(plugin, ConnectionSide.CLIENT_SIDE, ListenerPriority.NORMAL, 0x82);
-            this.plugin = plugin;
-        }
-        
-        @Override
-        public void onPacketReceiving(PacketEvent event) {
-            final Player player = event.getPlayer();
-            Vector v = signLocations.remove(player.getName());
-            if (v == null) return;
-            List<Integer> list = event.getPacket().getIntegers().getValues();
-            if (list.get(0) != v.getBlockX()) return;
-            if (list.get(1) != v.getBlockY()) return;
-            if (list.get(2) != v.getBlockZ()) return;
-            
-            final String[] lines = event.getPacket().getStringArrays().getValues().get(0);
-            final SignGUIListener response = listeners.remove(event.getPlayer().getName());
-            if (response != null) {
-                event.setCancelled(true);
-                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                    public void run() {
-                        response.onSignDone(player, lines);
-                    }
-                });
-            }
-        }
-        
-    }
-    
 }
