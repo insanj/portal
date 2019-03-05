@@ -1,4 +1,4 @@
-package General;
+package me.insanj.portal;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class onClick implements Listener {
+public class PortalClickListener implements Listener {
 	
 	public static Location loc = new Location(null, 0,0,0);
 	

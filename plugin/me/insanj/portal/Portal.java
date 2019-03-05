@@ -1,5 +1,4 @@
-package General;
-
+package me.insanj.portal;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -8,49 +7,46 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.inventory.ShapedRecipe;
 
-
-public class main extends JavaPlugin {
-	
-	
+public class Portal extends JavaPlugin {
 	private static Plugin plugin;
-	static SignGUI signGui;
+	static PortalSignGUI signGui;
 	
 	@Override
 	public void onEnable() {
 		plugin = this;
-		signGui = new SignGUI(this);
+		signGui = new PortalSignGUI(this);
 		
-		getCommand("portalgun").setExecutor( new portal());
-		registerEvents(this, new onClick());
+		getCommand("portalgun").setExecutor(new PortalCommandExecutor());
+		registerEvents(this, new PortalClickListener());
 		
-		Recipe.setUpRecipe();
-		getServer().addRecipe(Recipe.rstar);
+		ShapedRecipe rstar = PortalGunRecipe.setUpRecipe();
+		getServer().addRecipe(rstar);
 	}
 	
 	@Override
 	public void onDisable() {
 		plugin = null;
-		
 	}
 	
 	public static void Sign(Player player) {
-        signGui.open(player, new String[] { "X", "Y", "Z", "WORLD" }, new SignGUI.SignGUIListener() {
+        signGui.open(player, new String[] { "X", "Y", "Z", "WORLD" }, new PortalSignGUI.SignGUIListener() {
             @Override
             public void onSignDone(Player player, String[] lines) {
                 if (Bukkit.getWorld(lines[3]) != null) {
                 	
                 	
-                	Bukkit.getScheduler().scheduleAsyncRepeatingTask(main.getPlugin(), new Runnable() {
+                	Bukkit.getScheduler().scheduleAsyncRepeatingTask(Portal.getPlugin(), new Runnable() {
     					public void run() {
-    						player.spawnParticle(Particle.VILLAGER_HAPPY, onClick.loc, 1);
+    						player.spawnParticle(Particle.VILLAGER_HAPPY, PortalClickListener.loc, 1);
     					}
     				}, 3, 3);
                 	
-                	Bukkit.getScheduler().scheduleAsyncRepeatingTask(main.getPlugin(), new Runnable() {
+                	Bukkit.getScheduler().scheduleAsyncRepeatingTask(Portal.getPlugin(), new Runnable() {
     					public void run( ) {
     						for (Player p : Bukkit.getOnlinePlayers()) {
-	    						if (p.getLocation() == onClick.loc) {
+	    						if (p.getLocation() == PortalClickListener.loc) {
 	    							player.teleport(new Location(Bukkit.getWorld(lines[3]), Integer.parseInt(lines[0]), Integer.parseInt(lines[1]), Integer.parseInt(lines[2])));
 	    						}
     						}
@@ -59,16 +55,16 @@ public class main extends JavaPlugin {
                 } else if (lines[3] == null){
 
                 	
-                	Bukkit.getScheduler().scheduleAsyncRepeatingTask(main.getPlugin(), new Runnable() {
+                	Bukkit.getScheduler().scheduleAsyncRepeatingTask(Portal.getPlugin(), new Runnable() {
     					public void run() {
-    						player.spawnParticle(Particle.VILLAGER_HAPPY, onClick.loc, 1);
+    						player.spawnParticle(Particle.VILLAGER_HAPPY, PortalClickListener.loc, 1);
     					}
     				}, 3, 3);
                 	
-                	Bukkit.getScheduler().scheduleAsyncRepeatingTask(main.getPlugin(), new Runnable() {
+                	Bukkit.getScheduler().scheduleAsyncRepeatingTask(Portal.getPlugin(), new Runnable() {
     					public void run( ) {
     						for (Player p : Bukkit.getOnlinePlayers()) {
-	    						if (p.getLocation() == onClick.loc) {
+	    						if (p.getLocation() == PortalClickListener.loc) {
 	    							player.teleport(new Location(player.getLocation().getWorld(), Integer.parseInt(lines[0]), Integer.parseInt(lines[1]), Integer.parseInt(lines[2])));
 	    						}
     						}

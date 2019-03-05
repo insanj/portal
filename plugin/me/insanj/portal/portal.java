@@ -1,41 +1,88 @@
-package General;
-
-import java.util.ArrayList;
+package me.insanj.portal;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.inventory.ShapedRecipe;
 
-public class portal implements CommandExecutor {
+public class Portal extends JavaPlugin {
+	private static Plugin plugin;
+	static PortalSignGUI signGui;
 	
-	// Item Creation
-	public static void createDisplay(ItemStack Material, Inventory inv, String name, String lore)
+	@Override
+	public void onEnable() {
+		plugin = this;
+		signGui = new PortalSignGUI(this);
+		
+		getCommand("portalgun").setExecutor(new PortalCommandExecutor());
+		registerEvents(this, new PortalClickListener());
+		
+		ShapedRecipe rstar = PortalGunRecipe.setUpRecipe();
+		getServer().addRecipe(rstar);
+	}
+	
+	@Override
+	public void onDisable() {
+		plugin = null;
+	}
+	
+	public static void Sign(Player player) {
+        signGui.open(player, new String[] { "X", "Y", "Z", "WORLD" }, new PortalSignGUI.SignGUIListener() {
+            @Override
+            public void onSignDone(Player player, String[] lines) {
+                if (Bukkit.getWorld(lines[3]) != null) {
+                	
+                	
+                	Bukkit.getScheduler().scheduleAsyncRepeatingTask(Portal.getPlugin(), new Runnable() {
+    					public void run() {
+    						player.spawnParticle(Particle.VILLAGER_HAPPY, PortalClickListener.loc, 1);
+    					}
+    				}, 3, 3);
+                	
+                	Bukkit.getScheduler().scheduleAsyncRepeatingTask(Portal.getPlugin(), new Runnable() {
+    					public void run( ) {
+    						for (Player p : Bukkit.getOnlinePlayers()) {
+	    						if (p.getLocation() == PortalClickListener.loc) {
+	    							player.teleport(new Location(Bukkit.getWorld(lines[3]), Integer.parseInt(lines[0]), Integer.parseInt(lines[1]), Integer.parseInt(lines[2])));
+	    						}
+    						}
+    					}
+    				}, 3, 3);
+                } else if (lines[3] == null){
+
+                	
+                	Bukkit.getScheduler().scheduleAsyncRepeatingTask(Portal.getPlugin(), new Runnable() {
+    					public void run() {
+    						player.spawnParticle(Particle.VILLAGER_HAPPY, PortalClickListener.loc, 1);
+    					}
+    				}, 3, 3);
+                	
+                	Bukkit.getScheduler().scheduleAsyncRepeatingTask(Portal.getPlugin(), new Runnable() {
+    					public void run( ) {
+    						for (Player p : Bukkit.getOnlinePlayers()) {
+	    						if (p.getLocation() == PortalClickListener.loc) {
+	    							player.teleport(new Location(player.getLocation().getWorld(), Integer.parseInt(lines[0]), Integer.parseInt(lines[1]), Integer.parseInt(lines[2])));
+	    						}
+    						}
+    					}
+    				}, 3, 3);
+                } else {
+                	player.sendMessage("Invalid Arguments");
+                }
+            }
+        });
+    }
+	
+	// Registers events for each listener
+	public static void registerEvents(org.bukkit.plugin.Plugin plugin, Listener... listeners)
 	{
-		ItemStack item = Material;
-		ItemMeta meta = item.getItemMeta();
-		meta.setDisplayName(name);
-		ArrayList<String> Lore = new ArrayList<String>();
-		Lore.add(lore);
-		meta.setLore(Lore);
-		item.setItemMeta(meta);
-				 
-		inv.addItem(item);
+		for (Listener listener : listeners) { Bukkit.getServer().getPluginManager().registerEvents(listener, plugin); }
 	}
 	
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		
-		if (args[0] != null && Bukkit.getPlayer(args[0]) != null && sender.isOp()) {
-			Player target = Bukkit.getPlayer(args[0]);
-			createDisplay(new ItemStack(Material.NETHER_STAR, 1), target.getInventory(), ChatColor.LIGHT_PURPLE + "Portal Gun", "Right click to create a portal");
-		}
-		
-		return false;
-	}
+    //To access the plugin variable from other classes
+    public static Plugin getPlugin() { return plugin; } 
 }

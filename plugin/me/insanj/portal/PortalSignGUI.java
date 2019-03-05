@@ -1,4 +1,4 @@
-package General;
+package me.insanj.portal;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -20,14 +20,14 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 
-public class SignGUI {
+public class PortalSignGUI {
 
     protected ProtocolManager protocolManager;
     protected PacketAdapter packetListener;
     protected Map<String, SignGUIListener> listeners;
     protected Map<String, Vector> signLocations;
     
-    public SignGUI(Plugin plugin) {
+    public PortalSignGUI(Plugin plugin) {
         protocolManager = ProtocolLibrary.getProtocolManager();        
         packetListener = new PacketListener(plugin);
         protocolManager.addPacketListener(packetListener);
