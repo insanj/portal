@@ -1,4 +1,12 @@
-<h1 align="center">portal: 🌌 an easy-to-use portal gun for minecraft</h1>
+<h3 align="center">
+  🌌
+</h3>
+<h3 align="center">
+  portal
+</h3>
+<h3 align="center">
+an easy-to-use portal gun for minecraft
+</h3>
 
 <p align="center">
   <a href="https://github.com/insanj/portal/releases">
@@ -29,7 +37,11 @@
 </p>
 
 <p align="center">
-    Now you can use a Portal Gun to travel around various places in your Minecraft world! Based off of the <a href="https://bukkit.org/threads/portal-gun.478108/">Bukkit reqest forum post</a> made by user <a href="https://bukkit.org/members//shikishima.91268249/">Shikishima</a>.
+  Now you can use a Portal Gun to travel around various places in your Minecraft world!
+</p>
+
+<p align="center">
+  Based off of the <a href="https://bukkit.org/threads/portal-gun.478108/">Bukkit reqest forum post</a> made by user <a href="https://bukkit.org/members//shikishima.91268249/">Shikishima</a>.
 </p>
 
 ## How to Play
