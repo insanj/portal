@@ -1,5 +1,8 @@
 # Compiled class file
 *.class
+build/
+server/
+external/
 
 # Log file
 *.log
