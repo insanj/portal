@@ -3,8 +3,9 @@ description: portal gun in minecraft
 author: insanj
 main: me.insanj.portal.Portal
 version: 0.1.0
-
 commands:
   portalgun:
-  description: Gives a player a portal gun
-  usage: /portalgun <player>
+    description: Gives a player a portal gun
+    usage: |
+             Gives a player a portal gun
+             /portalgun <player>

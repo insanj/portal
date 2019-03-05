@@ -9,6 +9,8 @@ PROTOCOL_LIB_FILENAME=ProtocolLib.jar
 GIT_TAG:=$(shell git describe --tags)
 OUTPUT_VERSIONED_NAME=$(OUTPUT_NAME)-$(GIT_TAG)
 JAR_DEPS_PATH=$(EXTERNAL_PATH)/$(SPIGOT_JAR_FILENAME):$(EXTERNAL_PATH)/$(CRAFTBUKKIT_JAR_FILENAME):$(EXTERNAL_PATH)/$(PROTOCOL_LIB_FILENAME)
+SERVER_PATH=server
+SERVER_JAR_FILENAME=craftbukkit-1.13.2.jar
 
 .PHONY: all
 all: plugin server
@@ -33,4 +35,4 @@ server: plugin
 	# step 6 copy the JAR file into the server to run it!
 	cp -r $(BUILD_PATH)/$(OUTPUT_VERSIONED_NAME).jar $(SERVER_PATH)/plugins/$(OUTPUT_VERSIONED_NAME).jar
 	# step 7 run the server!
-	cd $(SERVER_PATH) && java -Xms1G -Xmx1G -jar -DIReallyKnowWhatIAmDoingISwear $(SPIGOT_JAR_FILENAME)
+	cd $(SERVER_PATH) && java -Xms1G -Xmx1G -jar -DIReallyKnowWhatIAmDoingISwear $(SERVER_JAR_FILENAME)

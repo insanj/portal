@@ -1,11 +1,7 @@
 <h1 align="center">portal</h1>
 <h3 align="center">🌌  portal gun in minecraft</h3>
 
----
-
-Based off of the [Bukkit reqest forum post](https://bukkit.org/threads/portal-gun.478108/) made by user [Shikishima](https://bukkit.org/members/shikishima.91268249/).
-
----
+Based off of the [Bukkit reqest forum post](https://bukkit.org/threads/portal-gun.478108/) made by user [Shikishima](https://bukkit.org/members/shikishima.91268249/). Forked and rewritten from [MrDaniel's PortalGun](https://github.com/MrDaniel-TX/PortalGun), which is also why he is included in the Authors section.
 
 ## What's included
 
