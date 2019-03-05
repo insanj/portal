@@ -2,7 +2,7 @@ name: portal
 description: portal gun in minecraft
 author: insanj
 main: me.insanj.portal.Portal
-version: 0.1.0
+version: 0.1.1
 commands:
   portalgun:
     description: Gives a player a portal gun
