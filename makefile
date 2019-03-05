@@ -27,14 +27,10 @@ plugin:
 	jar -cvf $(BUILD_PATH)/$(OUTPUT_VERSIONED_NAME).jar -C $(BUILD_PATH)/bin .
 
 .PHONY: server
-server:
+server: plugin
 	# step 5 remove any existing plugin on the server in the server folder
 	-rm -r -f $(SERVER_PATH)/plugins/$(OUTPUT_NAME)*.jar
 	# step 6 copy the JAR file into the server to run it!
 	cp -r $(BUILD_PATH)/$(OUTPUT_VERSIONED_NAME).jar $(SERVER_PATH)/plugins/$(OUTPUT_VERSIONED_NAME).jar
 	# step 7 run the server!
 	cd $(SERVER_PATH) && java -Xms1G -Xmx1G -jar -DIReallyKnowWhatIAmDoingISwear $(SPIGOT_JAR_FILENAME)
-
-.PHONY: webapp
-webapp:
-	cd webapp && npm start
