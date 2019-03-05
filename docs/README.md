@@ -1,11 +1,40 @@
-<h1 align="center">portal</h1>
-<h3 align="center">🌌  portal gun in minecraft</h3>
+<h1 align="center">portal: 🌌 an easy-to-use portal gun for minecraft</h1>
 
-Now you can use a Portal Gun to travel around various places in your Minecraft world! Based off of the [Bukkit reqest forum post](https://bukkit.org/threads/portal-gun.478108/) made by user [Shikishima](https://bukkit.org/members//shikishima.91268249/).
+<p align="center">
+  <a href="https://github.com/insanj/portal/releases">
+    <img src="https://img.shields.io/github/release/insanj/portal.svg" />
+  </a>
+
+  <a href="https://github.com/insanj/portal/">
+    <img src="https://img.shields.io/github/languages/code-size/insanj/portal.svg" />
+  </a>
+
+  <a href="https://github.com/insanj/portal/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/insanj/portal.svg" />
+  </a>
+
+  <br/>
+
+  <a href="https://jdk.java.net/">
+    <img src="https://img.shields.io/badge/java-10.0.2-red.svg" />
+  </a>
+  
+  <a href="https://getbukkit.org/download/craftbukkit">
+    <img src="https://img.shields.io/badge/bukkit-1.13.2-orange.svg" />
+  </a>
+  
+  <a href="https://bukkit.org/threads/portal-gun.478108/">
+    <img src="https://img.shields.io/badge/🚀-Learn%20more%20on%20bukkit.org-blue.svg" />
+  </a>
+</p>
+
+<p align="center">
+    Now you can use a Portal Gun to travel around various places in your Minecraft world! Based off of the <a href="https://bukkit.org/threads/portal-gun.478108/">Bukkit reqest forum post</a> made by user <a href="https://bukkit.org/members//shikishima.91268249/">Shikishima</a>.
+</p>
 
 ## How to Play
 
-### Obtaining a Portal Gun
+### Step One: Obtaining a Portal Gun
 
 The actual Portal Gun item is a Nether Star with the destination coordinates displayed below the name. To make one, either issue the command `/portalgun` as an operator, or craft it with:
 
@@ -15,21 +44,25 @@ The actual Portal Gun item is a Nether Star with the destination coordinates dis
 [Iron Block]   [Iron Block]       [EMPTY]
 ```
 
-### Fueling the Portal Gun
+### Step Two: Fueling the Portal Gun
 
 For a Portal Gun to work, it will use up 1 Ender Pearl from the inventory of the player who opened up the portal.
 
-### Setting the Portal Gun destination
+### Step Three: Setting the Portal Gun destination
 
 Right click anywhere with the Portal Gun in your hand to open the GUI. The x coordinate goes on the first row, the y coordinate goes on the 2nd row and the z coordinate goes on the 3rd row.
 
 Optionally, you can enter the name of the world on the 4th row, in case your server has more than one world, or you'd like to go to the Nether or The End. Make sure to use the name of the save file (ex: `world_nether`, and not the UUID or display name).
 
-### Opening up a portal
+### Step Four: Opening up a portal
 
 Once you have set the destination of your Portal Gun, left click anywhere to open up a portal! The portal will immediately appear as green "Happy Villager" particles. 
 
 Unlike Nether Portals or End Portals, the Portal Gun openings only last for **five seconds**. Hurry up and jump through, before it closes, to instantly be teleported to the destination programmed into your Portal Gun!
+
+### Step Five: 🎉 Have fun
+
+Store as many Portal Guns as you want in your inventory. Each one will stay linked to its destination forever, so you can grab whichever you need for the adventure at end!
 
 ## What's included
 
