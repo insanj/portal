@@ -16,7 +16,7 @@ public class PortalClickListener implements Listener {
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			Player player = e.getPlayer();
 			
-			if (player.getItemInHand().getItemMeta().getDisplayName() == "Portal Gun") {
+			if (player.getItemInHand().getItemMeta().getDisplayName().equals(Portal.PORTAL_GUN_DISPLAY_NAME)) {
 				loc = new Location(e.getClickedBlock().getLocation().getWorld(), e.getClickedBlock().getLocation().getX(), e.getClickedBlock().getLocation().getY() + 1, e.getClickedBlock().getLocation().getZ());
 			}
 		}

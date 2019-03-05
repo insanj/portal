@@ -11,7 +11,8 @@ import org.bukkit.inventory.ShapedRecipe;
 
 public class Portal extends JavaPlugin {
 	private static Plugin plugin;
-	static PortalSignGUI signGui;
+    static PortalSignGUI signGui;
+    static final String PORTAL_GUN_DISPLAY_NAME = "Portal Gun";
 	
 	@Override
 	public void onEnable() {

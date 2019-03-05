@@ -33,7 +33,7 @@ public class PortalCommandExecutor implements CommandExecutor {
 		
 		if (args[0] != null && Bukkit.getPlayer(args[0]) != null && sender.isOp()) {
 			Player target = Bukkit.getPlayer(args[0]);
-			createDisplay(new ItemStack(Material.NETHER_STAR, 1), target.getInventory(), ChatColor.LIGHT_PURPLE + "Portal Gun", "Right click to create a portal");
+			createDisplay(new ItemStack(Material.NETHER_STAR, 1), target.getInventory(), ChatColor.LIGHT_PURPLE + Portal.PORTAL_GUN_DISPLAY_NAME, "Right click to create a portal");
 		}
 		
 		return false;
