@@ -51,7 +51,7 @@ public class PortalCommandExecutor implements CommandExecutor {
     	
 	public static void addPortalGunToInventory(Inventory inventory) {
         ItemStack item = new ItemStack(Material.NETHER_STAR, 1);
-        String displayName =  ChatColor.LIGHT_PURPLE + Portal.PORTAL_GUN_DISPLAY_NAME;
+        String displayName = Portal.PORTAL_GUN_DISPLAY_NAME;
         String itemDescription = "Right click to create a portal";
 
 		ItemMeta meta = item.getItemMeta();

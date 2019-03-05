@@ -1,6 +1,7 @@
 package me.insanj.portal;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -12,7 +13,7 @@ import org.bukkit.inventory.ShapedRecipe;
 public class Portal extends JavaPlugin {
 	private static Plugin plugin;
     static PortalSignGUI signGui;
-    static final String PORTAL_GUN_DISPLAY_NAME = "Portal Gun";
+    static final String PORTAL_GUN_DISPLAY_NAME = ChatColor.LIGHT_PURPLE + "Portal Gun";
 	
 	@Override
 	public void onEnable() {
@@ -38,7 +39,9 @@ public class Portal extends JavaPlugin {
 	// Registers events for each listener
 	public static void registerEvents(org.bukkit.plugin.Plugin plugin, Listener... listeners)
 	{
-		for (Listener listener : listeners) { Bukkit.getServer().getPluginManager().registerEvents(listener, plugin); }
+		for (Listener listener : listeners) { 
+            Bukkit.getServer().getPluginManager().registerEvents(listener, plugin); 
+        }
 	}
 	
     //To access the plugin variable from other classes

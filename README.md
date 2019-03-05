@@ -1,7 +1,38 @@
 <h1 align="center">portal</h1>
 <h3 align="center">🌌  portal gun in minecraft</h3>
 
-Based off of the [Bukkit reqest forum post](https://bukkit.org/threads/portal-gun.478108/) made by user [Shikishima](https://bukkit.org/members/shikishima.91268249/). Forked and rewritten from [MrDaniel's PortalGun](https://github.com/MrDaniel-TX/PortalGun), which is also why he is included in the Authors section.
+Based off of the [Bukkit reqest forum post](https://bukkit.org/threads/portal-gun.478108/) made by user [Shikishima](https://bukkit.org/members/shikishima.91268249/):
+
+> Plugin category: RPG
+
+> Minecraft version: 1.13
+
+> Suggested name: Portal Gun
+
+> What I want: a plugin that allows players to use a portal gun to travel to various places around the world. i want the portal gun itself to have a crafting recipe and to use something as fuel.
+
+> The portal gun itself crafting recipe:
+
+```
+[EMPTY][Emerald Block][EMPTY]
+[EMPTY][Diamond Block][Redstone Block]
+[Iron Block][Iron Block][EMPTY]
+```
+
+> Once the portal gun is crafted, if a player right clicks with it in their hand it will give them the option to put coordinates into the portal gun, these coordinates can be changed at any time by right clicking and entering the coordinates again.
+
+> When the portal gun is right clicked it will open a sign gui, the x coordinate goes on the first row, the y coordinate goes on the 2nd row and the z coordinate goes on the 3rd row. if possible id like it so the player can enter the name of the world they will be teleported to on the 4th row of the sign gui. if the 4th line is empty it will default use the world the player is in at the time. so if the player enters 50 on row 1, then 50 on row 2, then -100 on the 3rd row. they will be teleported to x50 y50 z-100 in the world they are currently in. but if the player puts on the last row the name of the world (e.g. world_nether) they will be teleported to the coordinates in that world.
+
+> The actual portal gun item itself is a nether star renamed "Portal Gun" in red text, in the lore it should show the coordinates set in the portal gun at the time.
+
+> Once a player has a portal gun with coordinates set on it, if they left click on a surface it will make a portal appear made out of green villager happy particles. the portal will stay open for 5 seconds and any player that walks through the portal will be teleported to the set coordinates in the portal gun.
+
+> For a portal gun to work it needs to use ender pearls. 1 ender pearl is taken from the players inventory each time they make a portal. if the player has no ender pearls in their inventory the message "you do not have any fuel for your portal gun" will be sent to the player.
+
+> Ideas for commands: /portalgun (admin only command, used to auto give the portal gun item to people)
+
+> Ideas for permissions: no permissions, everyone can by default craft the portal gun and use it permission free.
+
 
 ## What's included
 
