@@ -41,10 +41,11 @@ Based off of the [Bukkit reqest forum post](https://bukkit.org/threads/portal-gu
 Julian Weiss
 me@insanj.com
 github.com/insanj
-
-MrDaniel-TX 
-https://github.com/MrDaniel-TX/PortalGun/tree/master/PortalGun
 ```
+
+## Acknowledgements
+
+Built off the work of [MrDaniel-TX](https://github.com/MrDaniel-TX/PortalGun/). Thanks to the 2016 [Portal Gun](https://dev.bukkit.org/projects/portal-gun) project by [Sporech](https://dev.bukkit.org/members/Sporech) as well, although the source code was never published online.
 
 ## License
 
