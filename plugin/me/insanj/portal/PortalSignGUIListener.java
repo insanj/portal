@@ -14,14 +14,14 @@ class PortalSignGUIListener {
         if (Bukkit.getWorld(lines[3]) != null) {
             Bukkit.getScheduler().scheduleAsyncRepeatingTask(Portal.getPlugin(), new Runnable() {
                 public void run() {
-                    player.spawnParticle(Particle.VILLAGER_HAPPY, PortalClickListener.loc, 1);
+                    player.spawnParticle(Particle.VILLAGER_HAPPY, PortalGunClickListener.loc, 1);
                 }
             }, 3, 3);
             
             Bukkit.getScheduler().scheduleAsyncRepeatingTask(Portal.getPlugin(), new Runnable() {
                 public void run( ) {
                     for (Player p : Bukkit.getOnlinePlayers()) {
-                        if (p.getLocation() == PortalClickListener.loc) {
+                        if (p.getLocation() == PortalGunClickListener.loc) {
                             player.teleport(new Location(Bukkit.getWorld(lines[3]), Integer.parseInt(lines[0]), Integer.parseInt(lines[1]), Integer.parseInt(lines[2])));
                         }
                     }
@@ -32,14 +32,14 @@ class PortalSignGUIListener {
             
             Bukkit.getScheduler().scheduleAsyncRepeatingTask(Portal.getPlugin(), new Runnable() {
                 public void run() {
-                    player.spawnParticle(Particle.VILLAGER_HAPPY, PortalClickListener.loc, 1);
+                    player.spawnParticle(Particle.VILLAGER_HAPPY, PortalGunClickListener.loc, 1);
                 }
             }, 3, 3);
             
             Bukkit.getScheduler().scheduleAsyncRepeatingTask(Portal.getPlugin(), new Runnable() {
                 public void run( ) {
                     for (Player p : Bukkit.getOnlinePlayers()) {
-                        if (p.getLocation() == PortalClickListener.loc) {
+                        if (p.getLocation() == PortalGunClickListener.loc) {
                             player.teleport(new Location(player.getLocation().getWorld(), Integer.parseInt(lines[0]), Integer.parseInt(lines[1]), Integer.parseInt(lines[2])));
                         }
                     }

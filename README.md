@@ -27,7 +27,7 @@ Based off of the [Bukkit reqest forum post](https://bukkit.org/threads/portal-gu
 │   │   └── insanj
 │   │       └── portal
 │   │           ├── Portal.java
-│   │           ├── PortalClickListener.java
+│   │           ├── PortalGunClickListener.java
 │   │           ├── PortalCommandExecutor.java
 │   │           ├── PortalGunRecipe.java
 │   │           └── PortalSignGUI.java
@@ -45,7 +45,13 @@ github.com/insanj
 
 ## Acknowledgements
 
-Built off the work of [MrDaniel-TX](https://github.com/MrDaniel-TX/PortalGun/). Thanks to the 2016 [Portal Gun](https://dev.bukkit.org/projects/portal-gun) project by [Sporech](https://dev.bukkit.org/members/Sporech) as well, although the source code was never published online.
+### Related Projects
+- [PortalGun](https://github.com/MrDaniel-TX/PortalGun/) (most recent plugin; forked to create this project)
+- [MC Portals](https://dev.bukkit.org/projects/mc-portals?gameCategorySlug=bukkit-plugins&projectID=309181)
+- [TravelPortals](https://dev.bukkit.org/projects/travelportals/pages/how-to-make-a-portal)
+- [Portal Gun](https://dev.bukkit.org/projects/portal-gun)
+- [BuildPortals](https://dev.bukkit.org/projects/buildportals?gameCategorySlug=bukkit-plugins&projectID=99352)
+- [WorldPortals](https://dev.bukkit.org/projects/world-portals-ng?gameCategorySlug=bukkit-plugins&projectID=283014)
 
 ## License
 

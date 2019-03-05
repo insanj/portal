@@ -20,7 +20,7 @@ public class Portal extends JavaPlugin {
 		signGui = new PortalSignGUI(this);
 		
 		getCommand("portalgun").setExecutor(new PortalCommandExecutor());
-		registerEvents(this, new PortalClickListener());
+		registerEvents(this, new PortalGunClickListener());
         
 		ShapedRecipe portalGunRecipe = PortalGunRecipe.setUpRecipe();
 		getServer().addRecipe(portalGunRecipe);
