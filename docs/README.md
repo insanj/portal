@@ -1,10 +1,8 @@
 <h3 align="center">
   🌌
-</h3>
-<h3 align="center">
-  portal
-</h3>
-<h3 align="center">
+<br/><br/>
+portal
+<br/>
 an easy-to-use portal gun for minecraft
 </h3>
 
@@ -38,13 +36,13 @@ an easy-to-use portal gun for minecraft
 
 <p align="center">
   Now you can use a Portal Gun to travel around various places in your Minecraft world!
-</p>
-
-<p align="center">
+<br/>
   Based off of the <a href="https://bukkit.org/threads/portal-gun.478108/">Bukkit reqest forum post</a> made by user <a href="https://bukkit.org/members//shikishima.91268249/">Shikishima</a>.
 </p>
 
-## How to Play
+<br/>
+
+<h2 align="center">How to Play</h2>
 
 ### Step One: Obtaining a Portal Gun
 
@@ -76,7 +74,8 @@ Unlike Nether Portals or End Portals, the Portal Gun openings only last for **fi
 
 Store as many Portal Guns as you want in your inventory. Each one will stay linked to its destination forever, so you can grab whichever you need for the adventure at end!
 
-## What's included
+<br/>
+<h2 align="center">What's included</h2>
 
 ```
 .
@@ -108,7 +107,8 @@ Store as many Portal Guns as you want in your inventory. Each one will stay link
 └── server -- Optional directory for testing out the plugin on a local server. You would have to make this yourself with a spigot.jar.
 ```
 
-## Authors
+<br/>
+<h2 align="center">Authors</h2>
 
 ```
 Julian Weiss
@@ -116,7 +116,8 @@ me@insanj.com
 github.com/insanj
 ```
 
-## Acknowledgements
+<br/>
+<h2 align="center">Acknowledgements</h2>
 
 ### Related Projects
 - [PortalGun](https://github.com/MrDaniel-TX/PortalGun/) (most recent plugin; forked to create this project)
@@ -126,7 +127,8 @@ github.com/insanj
 - [BuildPortals](https://dev.bukkit.org/projects/buildportals?gameCategorySlug=bukkit-plugins&projectID=99352)
 - [WorldPortals](https://dev.bukkit.org/projects/world-portals-ng?gameCategorySlug=bukkit-plugins&projectID=283014)
 
-## License
+<br/>
+<h2 align="center">License</h2>
 
 See [LICENSE](https://github.com/insanj/portal/blob/master/LICENSE). (c) 2019 Julian Weiss.
 
