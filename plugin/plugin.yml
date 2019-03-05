@@ -1,0 +1,9 @@
+name: PortalGun
+description: Created by MrDaniel_TX
+author: MrDaniel_TX
+main: General.main
+
+commands:
+  portalgun:
+  description: Gives a player a portal gun
+  usage: /portalgun <player>
