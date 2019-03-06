@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 public class PortalPlayerMoveListener implements Listener {	
     public final Location destination;
@@ -14,7 +15,7 @@ public class PortalPlayerMoveListener implements Listener {
         this.destination = destination;
     }
 
-    @EventHandler(priority=EventPriority.HIGH)
+    @EventHandler()
     public void onMove(PlayerMoveEvent e) {
         Location playerLocation = e.getPlayer().getLocation();
         double diff = Math.abs(Math.abs(playerLocation.getX() - destination.getX()) + Math.abs(playerLocation.getY() - destination.getY()) + Math.abs(playerLocation.getZ() - destination.getZ()));
