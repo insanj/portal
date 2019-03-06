@@ -11,39 +11,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.inventory.ShapedRecipe;
 
 public class Portal extends JavaPlugin {
-	private static Plugin plugin;
-    static PortalSignGUI signGui;
-    static final String PORTAL_GUN_DISPLAY_NAME = ChatColor.LIGHT_PURPLE + "Portal Gun";
-	
 	@Override
-	public void onEnable() {
-		plugin = this;
-		signGui = new PortalSignGUI(this);
-		
+	public void onEnable() {        
+        // step 1: setup commands
 		getCommand("portalgun").setExecutor(new PortalCommandExecutor());
-		registerEvents(this, new PortalGunClickListener());
         
-		ShapedRecipe portalGunRecipe = PortalGunRecipe.setUpRecipe();
-		getServer().addRecipe(portalGunRecipe);
+        // step 2: setup recipe(s)
+        getServer().addRecipe(PortalGun.getNetherStarRecipe());
+
+        // step 3: setup interact listener for right click/left click with portal gun
+        Bukkit.getServer().getPluginManager().registerEvents(new PortalGunClickListener(this), this); 
 	}
-	
-	@Override
-	public void onDisable() {
-		plugin = null;
-	}
-	
-	public static void Sign(Player player) {
-        signGui.open(player, new String[] { "X", "Y", "Z", "WORLD" }, new PortalSignGUIListener() );
-    }
-	
-	// Registers events for each listener
-	public static void registerEvents(org.bukkit.plugin.Plugin plugin, Listener... listeners)
-	{
-		for (Listener listener : listeners) { 
-            Bukkit.getServer().getPluginManager().registerEvents(listener, plugin); 
-        }
-	}
-	
-    //To access the plugin variable from other classes
-    public static Plugin getPlugin() { return plugin; } 
 }

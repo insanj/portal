@@ -1,4 +1,8 @@
-<h1 align="center">portal: 🌌 an easy-to-use portal gun for minecraft</h1>
+<p align="center">
+    🌌
+    <b>portal</b>
+    an easy-to-use portal gun for minecraft
+</p>
 
 <p align="center">
   <a href="https://github.com/insanj/portal/releases">
@@ -29,7 +33,10 @@
 </p>
 
 <p align="center">
-    Now you can use a Portal Gun to travel around various places in your Minecraft world! Based off of the <a href="https://bukkit.org/threads/portal-gun.478108/">Bukkit reqest forum post</a> made by user <a href="https://bukkit.org/members//shikishima.91268249/">Shikishima</a>.
+    Now you can use a Portal Gun to travel around various places in your Minecraft world!
+    <br/> 
+    
+    Based off of the <a href="https://bukkit.org/threads/portal-gun.478108/">Bukkit reqest forum post</a> made by user <a href="https://bukkit.org/members//shikishima.91268249/">Shikishima</a>.
 </p>
 
 ## How to Play
@@ -90,8 +97,8 @@ Store as many Portal Guns as you want in your inventory. Each one will stay link
 │   │           ├── Portal.java
 │   │           ├── PortalGunClickListener.java
 │   │           ├── PortalCommandExecutor.java
-│   │           ├── PortalGunRecipe.java
-│   │           └── PortalSignGUI.java
+│   │           ├── PortalGun.java
+│   │           └── SignGUI.java
 │   └── plugin.yml -- Configuration file which also defines current version number (see git tag as well).
 └── server -- Optional directory for testing out the plugin on a local server. You would have to make this yourself with a spigot.jar.
 ```
@@ -113,6 +120,9 @@ github.com/insanj
 - [Portal Gun](https://dev.bukkit.org/projects/portal-gun)
 - [BuildPortals](https://dev.bukkit.org/projects/buildportals?gameCategorySlug=bukkit-plugins&projectID=99352)
 - [WorldPortals](https://dev.bukkit.org/projects/world-portals-ng?gameCategorySlug=bukkit-plugins&projectID=283014)
+
+### Helpful Resources
+- [Sign GUI](https://bukkit.org/threads/sign-gui-use-the-sign-interface-to-get-user-input.177030/)
 
 ## License
 

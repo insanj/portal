@@ -45,23 +45,7 @@ public class PortalCommandExecutor implements CommandExecutor {
         }
 		
         Inventory inventory = player.getInventory();
-        addPortalGunToInventory(inventory);
+		inventory.addItem(PortalGun.getNetherStarItemStack());
 		return true;
     }
-    	
-	public static void addPortalGunToInventory(Inventory inventory) {
-        ItemStack item = new ItemStack(Material.NETHER_STAR, 1);
-        String displayName = Portal.PORTAL_GUN_DISPLAY_NAME;
-        String itemDescription = "Right click to create a portal";
-
-		ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(displayName);
-        
-		ArrayList<String> lore = new ArrayList<String>();
-		lore.add(itemDescription);
-        meta.setLore(lore);
-        
-		item.setItemMeta(meta);
-		inventory.addItem(item);
-	}
 }
