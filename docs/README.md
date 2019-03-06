@@ -1,12 +1,22 @@
+<<<<<<< HEAD
 <p align="center">
     🌌
     <b>portal</b>
     an easy-to-use portal gun for minecraft
 </p>
+=======
+<h3 align="center">
+  🌌
+<br/><br/>
+portal
+<br/>
+an easy-to-use portal gun for minecraft
+</h3>
+>>>>>>> a57980c5797c488287241aec972f2ea37ee40c5c
 
 <p align="center">
   <a href="https://github.com/insanj/portal/releases">
-    <img src="https://img.shields.io/github/release/insanj/portal.svg" />
+    <img src="https://img.shields.io/github/tag/insanj/portal.svg" />
   </a>
 
   <a href="https://github.com/insanj/portal/">
@@ -33,13 +43,21 @@
 </p>
 
 <p align="center">
+<<<<<<< HEAD
     Now you can use a Portal Gun to travel around various places in your Minecraft world!
     <br/> 
     
     Based off of the <a href="https://bukkit.org/threads/portal-gun.478108/">Bukkit reqest forum post</a> made by user <a href="https://bukkit.org/members//shikishima.91268249/">Shikishima</a>.
+=======
+  Now you can use a Portal Gun to travel around various places in your Minecraft world!
+<br/>
+  Based off of the <a href="https://bukkit.org/threads/portal-gun.478108/">Bukkit reqest forum post</a> made by user <a href="https://bukkit.org/members//shikishima.91268249/">Shikishima</a>.
+>>>>>>> a57980c5797c488287241aec972f2ea37ee40c5c
 </p>
 
-## How to Play
+<br/>
+
+<h2 align="center">How to Play</h2>
 
 ### Step One: Obtaining a Portal Gun
 
@@ -71,7 +89,8 @@ Unlike Nether Portals or End Portals, the Portal Gun openings only last for **fi
 
 Store as many Portal Guns as you want in your inventory. Each one will stay linked to its destination forever, so you can grab whichever you need for the adventure at end!
 
-## What's included
+<br/>
+<h2 align="center">What's included</h2>
 
 ```
 .
@@ -103,7 +122,8 @@ Store as many Portal Guns as you want in your inventory. Each one will stay link
 └── server -- Optional directory for testing out the plugin on a local server. You would have to make this yourself with a spigot.jar.
 ```
 
-## Authors
+<br/>
+<h2 align="center">Authors</h2>
 
 ```
 Julian Weiss
@@ -111,7 +131,8 @@ me@insanj.com
 github.com/insanj
 ```
 
-## Acknowledgements
+<br/>
+<h2 align="center">Acknowledgements</h2>
 
 ### Related Projects
 - [PortalGun](https://github.com/MrDaniel-TX/PortalGun/) (most recent plugin; forked to create this project)
@@ -121,10 +142,15 @@ github.com/insanj
 - [BuildPortals](https://dev.bukkit.org/projects/buildportals?gameCategorySlug=bukkit-plugins&projectID=99352)
 - [WorldPortals](https://dev.bukkit.org/projects/world-portals-ng?gameCategorySlug=bukkit-plugins&projectID=283014)
 
+<<<<<<< HEAD
 ### Helpful Resources
 - [Sign GUI](https://bukkit.org/threads/sign-gui-use-the-sign-interface-to-get-user-input.177030/)
 
 ## License
+=======
+<br/>
+<h2 align="center">License</h2>
+>>>>>>> a57980c5797c488287241aec972f2ea37ee40c5c
 
 See [LICENSE](https://github.com/insanj/portal/blob/master/LICENSE). (c) 2019 Julian Weiss.
 

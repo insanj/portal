@@ -1,3 +1,9 @@
+/*
+SignGUI.java
+written by nisovin
+https://bukkit.org/threads/sign-gui-use-the-sign-interface-to-get-user-input.177030/
+*/
+
 package me.insanj.portal;
 
 import java.lang.reflect.InvocationTargetException;
