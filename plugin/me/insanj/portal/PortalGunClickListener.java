@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.Sound;
 
 public class PortalGunClickListener implements Listener {	
     public final static String PORTAL_ERROR_NO_FUEL = ChatColor.RED + "Portal Gun out of fuel! Get more Ender Pearls to use.";
@@ -31,7 +32,7 @@ public class PortalGunClickListener implements Listener {
         String heldItemDisplayName = player.getItemInHand().getItemMeta().getDisplayName();
         if (heldItemDisplayName.equals(PortalGun.PORTAL_GUN_DISPLAY_NAME)) {
             if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
-                openSignGUI(e);
+                openSignGUI(e, player);
             } 
             else if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
                 if (player.getInventory().contains(Material.ENDER_PEARL, 1) == false) {
@@ -54,9 +55,14 @@ public class PortalGunClickListener implements Listener {
         Location destination = PortalGun.locationFromString(netherStarLocationString, player.getWorld());
         Location portalLocation = event.getClickedBlock().getLocation();
 
-        // String loc = "X: " + .getBlockX() + " Y: " + e.getClickedBlock().getLocation().getBlockY() + " Z: " + e.getClickedBlock().getLocation().getBlockZ();
+        // particle effect
         player.spawnParticle(Particle.VILLAGER_HAPPY, portalLocation, 1);
+        
+        // activate for 5 seconds
         activatePortal(portalLocation);
+
+        // play sound at completion
+        player.playSound(player.getLocation(), Sound.BLOCK_CONDUIT_ACTIVATE, 1F, 1F);
     }
 
     public void activatePortal(Location location) {
@@ -72,12 +78,13 @@ public class PortalGunClickListener implements Listener {
         }, 100L); // 100 ticks = 5 seconds, because 1 seconds = 20 ticks normally
     }
     
-    public void openSignGUI(PlayerInteractEvent event) {
+    public void openSignGUI(PlayerInteractEvent event, Player player) {
         SignGUI signGui = new SignGUI(plugin);
         PortalGunClickListener listener = this;
-        signGui.open(event.getPlayer(), new String[] { "x", "y", "z", "world" }, new SignGUI.SignGUIListener() {
+        String[] defaultText = new String[] { "x", "y", "z", "world" };
+        signGui.open(player, defaultText, new SignGUI.SignGUIListener() {
             @Override
-            public void onSignDone(Player player, String[] lines) {
+            public void onSignDone(Player signPlayer, String[] lines) {
                 listener.onSignDone(event, player, lines);
             }
         });
