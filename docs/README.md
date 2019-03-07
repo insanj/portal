@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-<p align="center">
-    🌌
-    <b>portal</b>
-    an easy-to-use portal gun for minecraft
-</p>
-=======
 <h3 align="center">
   🌌
 <br/><br/>
@@ -12,7 +5,6 @@ portal
 <br/>
 an easy-to-use portal gun for minecraft
 </h3>
->>>>>>> a57980c5797c488287241aec972f2ea37ee40c5c
 
 <p align="center">
   <a href="https://github.com/insanj/portal/releases">
@@ -43,31 +35,19 @@ an easy-to-use portal gun for minecraft
 </p>
 
 <p align="center">
-<<<<<<< HEAD
-    Now you can use a Portal Gun to travel around various places in your Minecraft world!
-    <br/> 
-    
-    Based off of the <a href="https://bukkit.org/threads/portal-gun.478108/">Bukkit reqest forum post</a> made by user <a href="https://bukkit.org/members//shikishima.91268249/">Shikishima</a>.
-=======
   Now you can use a Portal Gun to travel around various places in your Minecraft world!
 <br/>
   Based off of the <a href="https://bukkit.org/threads/portal-gun.478108/">Bukkit reqest forum post</a> made by user <a href="https://bukkit.org/members//shikishima.91268249/">Shikishima</a>.
->>>>>>> a57980c5797c488287241aec972f2ea37ee40c5c
 </p>
 
 <br/>
-
 <h2 align="center">How to Play</h2>
 
 ### Step One: Obtaining a Portal Gun
 
 The actual Portal Gun item is a Nether Star with the destination coordinates displayed below the name. To make one, either issue the command `/portalgun` as an operator, or craft it with:
 
-```
-[EMPTY]        [Emerald Block]    [EMPTY]
-[EMPTY]        [Diamond Block]    [Redstone Block]
-[Iron Block]   [Iron Block]       [EMPTY]
-```
+<img src="recipe.png" align="center" />
 
 ### Step Two: Fueling the Portal Gun
 
@@ -102,24 +82,24 @@ Store as many Portal Guns as you want in your inventory. Each one will stay link
 │   │   ├── me
 │   │   │   └── insanj
 │   │   │       └── portal
-│   │   │           ├── *.class
+│   │   │           └── *.class
 │   │   └── plugin.yml
 │   └── portal-version.jar
 ├── external -- External dependancies directory. You have to download these open source JARs and place them here; or change the PATH in the makefile.
-│   ├── ProtocolLib.jar
 │   ├── craftbukkit-1.13.2.jar
-│   └── spigot.jar
+│   └── spigot-1.13.2.jar
 ├── plugin -- Source code directory, structured as a standard Java package.
 │   ├── me
 │   │   └── insanj
+│   │       └── anvilgui -- Source of GUI, https://github.com/WesJD/AnvilGUI
 │   │       └── portal
 │   │           ├── Portal.java
 │   │           ├── PortalGunClickListener.java
+│   │           ├── PortalPlayerMoveListener.java
 │   │           ├── PortalCommandExecutor.java
-│   │           ├── PortalGun.java
-│   │           └── SignGUI.java
+│   │           └── PortalGun.java
 │   └── plugin.yml -- Configuration file which also defines current version number (see git tag as well).
-└── server -- Optional directory for testing out the plugin on a local server. You would have to make this yourself with a spigot.jar.
+└── server -- Optional directory for testing out the plugin on a local server.
 ```
 
 <br/>
@@ -142,15 +122,11 @@ github.com/insanj
 - [BuildPortals](https://dev.bukkit.org/projects/buildportals?gameCategorySlug=bukkit-plugins&projectID=99352)
 - [WorldPortals](https://dev.bukkit.org/projects/world-portals-ng?gameCategorySlug=bukkit-plugins&projectID=283014)
 
-<<<<<<< HEAD
 ### Helpful Resources
 - [Sign GUI](https://bukkit.org/threads/sign-gui-use-the-sign-interface-to-get-user-input.177030/)
 
-## License
-=======
 <br/>
 <h2 align="center">License</h2>
->>>>>>> a57980c5797c488287241aec972f2ea37ee40c5c
 
 See [LICENSE](https://github.com/insanj/portal/blob/master/LICENSE). (c) 2019 Julian Weiss.
 

@@ -34,7 +34,12 @@ public class PortalGunClickListener implements Listener {
     @EventHandler()
     public void onPlayerInteraction(PlayerInteractEvent e) {
         Player player = e.getPlayer();
-        String heldItemDisplayName = player.getItemInHand().getItemMeta().getDisplayName();
+        ItemStack heldItem = player.getItemInHand();
+        if (heldItem == null || heldItem.getItemMeta() == null || heldItem.getItemMeta().getDisplayName() == null) {
+            return; // nothing to see here, no item in hand!
+        }
+        
+        String heldItemDisplayName = heldItem.getItemMeta().getDisplayName();
         if (heldItemDisplayName.equals(PortalGun.PORTAL_GUN_DISPLAY_NAME)) {
             if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 openSignGUI(e, player);

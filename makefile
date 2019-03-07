@@ -31,13 +31,17 @@ plugin:
 	# step 4 create JAR file using the "build in progress" folder
 	jar -cvf $(BUILD_PATH)/$(OUTPUT_VERSIONED_NAME).jar -C $(BUILD_PATH)/bin .
 
-.PHONY: server
-server: plugin
+
+.PHONY: clean
+clean:
 	# step 5 remove any existing plugin on the server in the server folder
-	-rm -r -f $(SERVER_PATH)/plugins/$(OUTPUT_NAME)*.jar
-	-rm -r -f $(SERVER_PATH)/$(CRAFTBUKKIT_JAR_FILENAME)
+	-rm -r -f $(SERVER_PATH)
+	mkdir $(SERVER_PATH) && mkdir $(SERVER_PATH)/plugins
+	echo "eula=true" > $(SERVER_PATH)/eula.txt
+
+.PHONY: server
+server:
 	# step 6 copy the JAR file into the server to run it!
-	cp -r $(EXTERNAL_PATH)/$(CRAFTBUKKIT_JAR_FILENAME) $(SERVER_PATH)/$(CRAFTBUKKIT_JAR_FILENAME)
-	cp -r $(BUILD_PATH)/$(OUTPUT_VERSIONED_NAME).jar $(SERVER_PATH)/plugins/$(OUTPUT_VERSIONED_NAME).jar
-	# step 7 run the server!
+	cp -R $(EXTERNAL_PATH)/$(CRAFTBUKKIT_JAR_FILENAME) $(SERVER_PATH)/$(CRAFTBUKKIT_JAR_FILENAME)
+	cp -R $(BUILD_PATH)/$(OUTPUT_VERSIONED_NAME).jar $(SERVER_PATH)/plugins/$(OUTPUT_VERSIONED_NAME).jar
 	cd $(SERVER_PATH) && java -Xms1G -Xmx1G -jar -DIReallyKnowWhatIAmDoingISwear $(CRAFTBUKKIT_JAR_FILENAME)

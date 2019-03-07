@@ -22,7 +22,7 @@ public class PortalGun {
     static final String PORTAL_GUN_DEFAULT_DESCRIPTION = ChatColor.GREEN + "Right click to create a portal";
 
 	public static ShapedRecipe getNetherStarRecipe() {
-        ItemStack netherStar = new ItemStack(Material.NETHER_STAR);
+        ItemStack netherStar = getNetherStarItemStack();
         ShapedRecipe shapedRecipe = new ShapedRecipe(netherStar);
 		shapedRecipe.shape("*-*","*,/","..*");
 		shapedRecipe.setIngredient('*', Material.AIR);
