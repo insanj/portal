@@ -4,7 +4,6 @@ author: insanj
 website: https://github.com/insanj/portal
 main: me.insanj.portal.Portal
 version: 0.2.0
-depend: [ProtocolLib]
 commands:
   portalgun:
     description: Gives a player a portal gun

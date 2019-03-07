@@ -86,11 +86,13 @@ public class PortalGunClickListener implements Listener {
     public void openSignGUI(PlayerInteractEvent event, Player signPlayer) {
         PortalGunClickListener listener = this;
         List<String> defaultText = Arrays.asList("x", "y", "z");
-        SignMenuFactory signMenuFactory = plugin.getSignMenuFactory();
-        Location location = event.getClickedBlock().getLocation();
-        signMenuFactory.newMenu(signPlayer, location, defaultText, (player, input) -> {
-            // listener.onSignDone(event, player, input);
-            System.out.println("Input = " + input.toString());
+        
+        new AnvilGUI(plugin, signPlayer, "What is the meaning of life?", (player, reply) -> {
+            if (reply.equalsIgnoreCase("you")) {
+                player.sendMessage("You have magical powers!");
+                return null;
+            }
+            return "Incorrect.";
         });
     }
 
