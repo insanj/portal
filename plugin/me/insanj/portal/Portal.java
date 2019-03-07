@@ -14,7 +14,7 @@ public class Portal extends JavaPlugin {
 	@Override
 	public void onEnable() {        
         // step 1: setup commands
-		getCommand("portalgun").setExecutor(new PortalCommandExecutor());
+		getCommand("portalgun").setExecutor(new PortalCommandExecutor(this));
         
         // step 2: setup recipe(s)
         getServer().addRecipe(PortalGun.getNetherStarRecipe());

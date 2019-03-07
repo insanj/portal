@@ -51,7 +51,7 @@ public class PortalGunClickListener implements Listener {
             if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
                 openSignGUI(e, player, heldItem);
             } 
-            else if (e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_AIR) {
+            else if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
                 if (heldItem.getItemMeta().getLore().get(0).equals(PortalGun.PORTAL_GUN_DEFAULT_DESCRIPTION)) {
                     player.sendMessage(PortalGunClickListener.PORTAL_ERROR_NEED_TO_SETUP);
                 } else if (player.getInventory().contains(Material.ENDER_PEARL, 1) == false) {
@@ -88,23 +88,23 @@ public class PortalGunClickListener implements Listener {
         // activate for 5 seconds
         activatePortal(portalLocation, destination);
 
-        String logMessage = String.format("activated portal from %s to %s", portalLocation.toString(), destination.toString());
-        Bukkit.getServer().getLogger().info(logMessage);
+        // String logMessage = String.format("activated portal from %s to %s", portalLocation.toString(), destination.toString());
+        // Bukkit.getServer().getLogger().info(logMessage);
 
         // play sound at completion
-        player.getWorld().playSound(player.getLocation(), Sound.BLOCK_PORTAL_TRIGGER, 5, 1);
+        PortalGun.playSound(plugin, portalLocation, PortalGun.SoundType.ACTIVATED);
     }
 
     public void activatePortal(Location origin, Location destination) {
-        PortalPlayerMoveListener moveListener = new PortalPlayerMoveListener(origin, destination);
+        PortalPlayerMoveListener moveListener = new PortalPlayerMoveListener(plugin, origin, destination);
         plugin.getServer().getPluginManager().registerEvents(moveListener, plugin);
 
         BukkitScheduler scheduler = plugin.getServer().getScheduler();
         scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
             @Override
             public void run() {
-                String logMessage = String.format("deactivated portal from %s to %s", origin.toString(), destination.toString());
-                Bukkit.getServer().getLogger().info(logMessage);
+                // String logMessage = String.format("deactivated portal from %s to %s", origin.toString(), destination.toString());
+                // Bukkit.getServer().getLogger().info(logMessage);
 
                 HandlerList.unregisterAll(moveListener);
                 moveListener.deactivated = true;
@@ -123,9 +123,11 @@ public class PortalGunClickListener implements Listener {
         }
 
         String portalUITitle = "Set Portal Destination";
+        Portal globalPlugin = this.plugin;
+
         new AnvilGUI(plugin, signPlayer, portalUITitle, defaultText, (player, reply) -> {
             if (listener.onSignDone(event, player, reply) == true) {
-                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 1);
+                PortalGun.playSound(globalPlugin, player.getLocation(), PortalGun.SoundType.CONFIGURED);
                 return null;
             }
             return "Incomplete destination coordinates.";

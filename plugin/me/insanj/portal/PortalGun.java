@@ -17,9 +17,11 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.Sound;
+import org.bukkit.scheduler.BukkitScheduler;
 
 public class PortalGun {
-    static final String PORTAL_GUN_DISPLAY_NAME = ChatColor.LIGHT_PURPLE + "Portal Gun";
+    static final String PORTAL_GUN_DISPLAY_NAME = ChatColor.RED + "Portal Gun";
     static final String PORTAL_GUN_DEFAULT_DESCRIPTION = ChatColor.GREEN + "Right click to set destination";
 
 	public static ShapedRecipe getNetherStarRecipe() {
@@ -83,5 +85,53 @@ public class PortalGun {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public enum SoundType {
+        RECEIVED,
+        CONFIGURED,
+        ACTIVATED,
+        TELEPORTED
+    }
+
+    public static void playSound(Plugin plugin, Location location, SoundType type) {
+        World world = location.getWorld();
+        switch (type) {
+            case CONFIGURED:
+                world.playSound(location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 0);
+            case RECEIVED:
+                world.playSound(location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 1);
+                break;
+            case ACTIVATED:
+                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 3, 0L);
+                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 3, 1L);
+                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 1, 2L);
+                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 1, 3L);
+                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 3, 4L);
+                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 3, 5L);
+                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 1, 6L);
+                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 1, 7L);
+                break;
+            case TELEPORTED:
+                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, -3, 0L);
+                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, -3, 1L);
+                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, -2, 2L);
+                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, -2, 3L);
+                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, -3, 4L);
+                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, -3, 5L);
+                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, -2, 6L);
+                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, -2, 7L);
+                break;
+        }
+    }
+
+    private static void playSoundAfterDelay(Plugin plugin, Location location, Sound sound, int volume, int pitch, long ticks) {
+        BukkitScheduler scheduler = plugin.getServer().getScheduler();
+        scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
+            @Override
+            public void run() {
+                location.getWorld().playSound(location, sound, volume, pitch);
+            }
+        }, ticks); // 1 second = 20 ticks normally
     }
 }

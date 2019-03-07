@@ -16,8 +16,9 @@ public class PortalPlayerMoveListener implements Listener {
     public final Location origin;
     public final Location destination;
     public final double threshold = 3;
-    public ArrayList<String> alreadyTeleportedPlayers = new ArrayList<String>();
-    public PortalPlayerMoveListener(Location origin, Location destination) {
+    public final Portal plugin;
+    public PortalPlayerMoveListener(Portal plugin, Location origin, Location destination) {
+        this.plugin = plugin;
         this.origin = origin;
         this.destination = destination;
     }
@@ -27,16 +28,27 @@ public class PortalPlayerMoveListener implements Listener {
         if (deactivated == true) {
             return;
         }
-        else if (alreadyTeleportedPlayers.contains(e.getPlayer().getUniqueId()) == true) {
-            return;
+
+        double originDestDiff = Math.abs(Math.abs(destination.getX() - origin.getX()) + Math.abs(destination.getY() - origin.getY()) + Math.abs(destination.getZ() - origin.getZ()));
+        if (originDestDiff <= threshold) {
+            return; // too close!
         }
+
         Location playerLocation = e.getPlayer().getLocation();
         double diff = Math.abs(Math.abs(playerLocation.getX() - origin.getX()) + Math.abs(playerLocation.getY() - origin.getY()) + Math.abs(playerLocation.getZ() - origin.getZ()));
 
         if (diff <= threshold) {
             Player player = e.getPlayer();
+            Location lookingLocation = player.getEyeLocation();
+
+            float yaw = lookingLocation.getYaw();
+            float pitch = lookingLocation.getPitch();
+
+            destination.setYaw(yaw);
+            destination.setPitch(pitch);
+
             player.teleport(destination);
-            player.getWorld().playSound(player.getLocation(), Sound.BLOCK_PORTAL_TRAVEL, 5, 1);
+            PortalGun.playSound(plugin, destination, PortalGun.SoundType.TELEPORTED);
         }
     }
 }

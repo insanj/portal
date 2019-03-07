@@ -15,6 +15,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.Sound;
 
 public class PortalCommandExecutor implements CommandExecutor {
+    public final Portal plugin;
+    public PortalCommandExecutor(Portal plugin) {
+        this.plugin = plugin;
+    }
+
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player player = null;
         if (args.length <= 0) {
@@ -48,7 +53,7 @@ public class PortalCommandExecutor implements CommandExecutor {
         Inventory inventory = player.getInventory();
         inventory.addItem(PortalGun.getNetherStarItemStack());
         
-        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 1);
+        PortalGun.playSound(plugin, player.getLocation(), PortalGun.SoundType.RECEIVED);
 
 		return true;
     }
