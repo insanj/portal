@@ -8,7 +8,7 @@ an easy-to-use portal gun for minecraft
 
 <p align="center">
   <a href="https://github.com/insanj/portal/releases">
-    <img src="https://img.shields.io/github/tag/insanj/portal.svg" />
+    <img src="https://img.shields.io/github/release/insanj/portal.svg" />
   </a>
 
   <a href="https://github.com/insanj/portal/">
@@ -55,17 +55,30 @@ The actual Portal Gun item is a Nether Star with the destination coordinates dis
 
 For a Portal Gun to work, it will use up 1 Ender Pearl from the inventory of the player who opened up the portal.
 
+<img src="pearl.png" align="center" />
+
 ### Step Three: Setting the Portal Gun destination
 
-Right click anywhere with the Portal Gun in your hand to open the GUI. The x coordinate goes on the first row, the y coordinate goes on the 2nd row and the z coordinate goes on the 3rd row.
+Right click anywhere with the Portal Gun in your hand to open the Anvil GUI. Type in the world, x, y, and z coordinates here. The format looks like this:
 
-Optionally, you can enter the name of the world on the 4th row, in case your server has more than one world, or you'd like to go to the Nether or The End. Make sure to use the name of the save file (ex: `world_nether`, and not the UUID or display name).
+```
+world=world_name,x=1,y=1,z=1
+```
+
+<img src="config.png" align="center" />
+<img src="done_config.png" align="center" />
+
+Click the completed item to set the destination of your Portal Gun.
+
+<img src="ready.png" align="center" />
 
 ### Step Four: Opening up a portal
 
 Once you have set the destination of your Portal Gun, left click anywhere to open up a portal! The portal will immediately appear as green "Happy Villager" particles. 
 
 Unlike Nether Portals or End Portals, the Portal Gun openings only last for **five seconds**. Hurry up and jump through, before it closes, to instantly be teleported to the destination programmed into your Portal Gun!
+
+<img src="active.png" align="center" />
 
 ### Step Five: 🎉 Have fun
 
