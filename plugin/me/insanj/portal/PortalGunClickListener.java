@@ -1,5 +1,9 @@
 package me.insanj.portal;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Arrays;
+
 import org.bukkit.Location;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -22,6 +26,7 @@ import org.bukkit.Sound;
 public class PortalGunClickListener implements Listener {	
     public final static String PORTAL_ERROR_NO_FUEL = ChatColor.RED + "Portal Gun out of fuel! Get more Ender Pearls to use.";
     public final Portal plugin;
+    
     public PortalGunClickListener(Portal plugin) {
         this.plugin = plugin;
     }
@@ -31,7 +36,7 @@ public class PortalGunClickListener implements Listener {
         Player player = e.getPlayer();
         String heldItemDisplayName = player.getItemInHand().getItemMeta().getDisplayName();
         if (heldItemDisplayName.equals(PortalGun.PORTAL_GUN_DISPLAY_NAME)) {
-            if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
+            if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 openSignGUI(e, player);
             } 
             else if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
@@ -78,26 +83,30 @@ public class PortalGunClickListener implements Listener {
         }, 100L); // 100 ticks = 5 seconds, because 1 seconds = 20 ticks normally
     }
     
-    public void openSignGUI(PlayerInteractEvent event, Player player) {
-        SignGUI signGui = new SignGUI(plugin);
+    public void openSignGUI(PlayerInteractEvent event, Player signPlayer) {
         PortalGunClickListener listener = this;
-        String[] defaultText = new String[] { "x", "y", "z", "world" };
-        signGui.open(player, defaultText, new SignGUI.SignGUIListener() {
-            @Override
-            public void onSignDone(Player signPlayer, String[] lines) {
-                listener.onSignDone(event, player, lines);
-            }
+        List<String> defaultText = Arrays.asList("x", "y", "z");
+        SignMenuFactory signMenuFactory = plugin.getSignMenuFactory();
+        Location location = event.getClickedBlock().getLocation();
+        signMenuFactory.newMenu(signPlayer, location, defaultText, (player, input) -> {
+            // listener.onSignDone(event, player, input);
+            System.out.println("Input = " + input.toString());
         });
     }
 
     public void onSignDone(PlayerInteractEvent event, Player player, String[] lines) {
-        Double x = Double.parseDouble(lines[0]);
-        Double y = Double.parseDouble(lines[1]);
-        Double z = Double.parseDouble(lines[2]);
+        try {
+            Double x = Double.parseDouble(lines[0]);
+            Double y = Double.parseDouble(lines[1]);
+            Double z = Double.parseDouble(lines[2]);
 
-        Location signLocation = new Location(player.getWorld(), x, y, z);
-        ItemStack currentNetherStarItem = player.getItemInHand();
-        ItemStack updatedNetherStarItem = PortalGun.getNetherStarItemStack(signLocation);
-        player.setItemInHand(updatedNetherStarItem);
+            Location signLocation = new Location(player.getWorld(), x, y, z);
+            ItemStack currentNetherStarItem = player.getItemInHand();
+            ItemStack updatedNetherStarItem = PortalGun.getNetherStarItemStack(signLocation);
+            player.setItemInHand(updatedNetherStarItem);
+        } catch (Exception e) {
+            e.printStackTrace();
+            player.sendMessage(ChatColor.RED + "Unable to open save portal destination, please try again.");
+        }
     }
 }
