@@ -129,6 +129,7 @@ github.com/insanj
 ### Helpful Resources
 - [AnvilGUI](https://github.com/WesJD/AnvilGUI)
 - [Sign GUI](https://bukkit.org/threads/sign-gui-use-the-sign-interface-to-get-user-input.177030/)
+- [Renaming an Anvil Inventory](https://www.spigotmc.org/threads/rnaming-a-anvil-inventory-with-nms-in-1-12-2.327481/)
 
 <br/>
 <h2 align="center"><a href="https://github.com/insanj/portal/blob/master/LICENSE">License</a></h2>

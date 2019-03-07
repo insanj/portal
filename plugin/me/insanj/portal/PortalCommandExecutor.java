@@ -48,7 +48,7 @@ public class PortalCommandExecutor implements CommandExecutor {
         Inventory inventory = player.getInventory();
         inventory.addItem(PortalGun.getNetherStarItemStack());
         
-        player.getWorld().playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 10, 1);
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 1);
 
 		return true;
     }

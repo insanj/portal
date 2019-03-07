@@ -19,6 +19,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.Sound;
@@ -34,6 +35,11 @@ public class PortalGunClickListener implements Listener {
 
     @EventHandler()
     public void onPlayerInteraction(PlayerInteractEvent e) {
+        EquipmentSlot equipmentSlot = e.getHand();
+        if (!equipmentSlot.equals(EquipmentSlot.HAND)) {
+            return;
+        }
+
         Player player = e.getPlayer();
         ItemStack heldItem = player.getItemInHand();
         if (heldItem == null || heldItem.getItemMeta() == null || heldItem.getItemMeta().getDisplayName() == null) {
@@ -42,10 +48,10 @@ public class PortalGunClickListener implements Listener {
         
         String heldItemDisplayName = heldItem.getItemMeta().getDisplayName();
         if (heldItemDisplayName.equals(PortalGun.PORTAL_GUN_DISPLAY_NAME)) {
-            if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                openSignGUI(e, player);
+            if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
+                openSignGUI(e, player, heldItem);
             } 
-            else if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
+            else if (e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_AIR) {
                 if (heldItem.getItemMeta().getLore().get(0).equals(PortalGun.PORTAL_GUN_DEFAULT_DESCRIPTION)) {
                     player.sendMessage(PortalGunClickListener.PORTAL_ERROR_NEED_TO_SETUP);
                 } else if (player.getInventory().contains(Material.ENDER_PEARL, 1) == false) {
@@ -86,7 +92,7 @@ public class PortalGunClickListener implements Listener {
         Bukkit.getServer().getLogger().info(logMessage);
 
         // play sound at completion
-        player.getWorld().playSound(player.getLocation(), Sound.BLOCK_CONDUIT_ACTIVATE, 10, 1);
+        player.getWorld().playSound(player.getLocation(), Sound.BLOCK_PORTAL_TRIGGER, 5, 1);
     }
 
     public void activatePortal(Location origin, Location destination) {
@@ -102,21 +108,27 @@ public class PortalGunClickListener implements Listener {
 
                 HandlerList.unregisterAll(moveListener);
                 moveListener.deactivated = true;
-                origin.getWorld().playSound(origin, Sound.BLOCK_CONDUIT_DEACTIVATE, 10, 1);
             }
         }, 100L); // 100 ticks = 5 seconds, because 1 seconds = 20 ticks normally
     }
     
-    public void openSignGUI(PlayerInteractEvent event, Player signPlayer) {
+    public void openSignGUI(PlayerInteractEvent event, Player signPlayer, ItemStack heldItem) {
         PortalGunClickListener listener = this;
-        String defaultText = "world=";
-        defaultText += signPlayer.getWorld().getName();
-        defaultText += ",x=,y=,z=";
-        new AnvilGUI(plugin, signPlayer, defaultText, (player, reply) -> {
+
+        String defaultText = heldItem.getItemMeta().getLore().get(0); // if existing coords, use those
+        if (defaultText.equals(PortalGun.PORTAL_GUN_DEFAULT_DESCRIPTION)) {
+            defaultText = "world=";
+            defaultText += signPlayer.getWorld().getName();
+            defaultText += ",x=,y=,z=";
+        }
+
+        String portalUITitle = "Set Portal Destination";
+        new AnvilGUI(plugin, signPlayer, portalUITitle, defaultText, (player, reply) -> {
             if (listener.onSignDone(event, player, reply) == true) {
+                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 1);
                 return null;
             }
-            return "Type in the destination above using the world=,x=,y=,z= format. Click here when done!";
+            return "Incomplete destination coordinates.";
         });
     }
 

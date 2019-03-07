@@ -60,21 +60,6 @@ public class AnvilGUI {
     private boolean open;
 
     /**
-     * Create an AnvilGUI and open it for the player
-     * @param plugin A {@link org.bukkit.plugin.java.JavaPlugin} instance
-     * @param holder The {@link Player} to open the inventory for
-     * @param insert What to have the text already set to
-     * @param clickHandler A {@link ClickHandler} that is called when the player clicks the {@link Slot#OUTPUT} slot
-     * @throws NullPointerException If the server version isn't supported
-     *
-     * @deprecated As of version 1.1, use {@link AnvilGUI(Plugin, Player, String, BiFunction)}
-     */
-    @Deprecated
-    public AnvilGUI(Plugin plugin, Player holder, String insert, ClickHandler clickHandler) {
-        this(plugin, holder, insert, clickHandler::onClick);
-    }
-
-    /**
      * Create an AnvilGUI and open it for the player.
      * @param plugin A {@link org.bukkit.plugin.java.JavaPlugin} instance
      * @param holder The {@link Player} to open the inventory for
@@ -82,7 +67,7 @@ public class AnvilGUI {
      * @param biFunction A {@link BiFunction} that is called when the player clicks the {@link Slot#OUTPUT} slot
      * @throws NullPointerException If the server version isn't supported
      */
-    public AnvilGUI(Plugin plugin, Player holder, String insert, BiFunction<Player, String, String> biFunction) {
+    public AnvilGUI(Plugin plugin, Player holder, String name, String insert, BiFunction<Player, String, String> biFunction) {
         this.holder = holder;
         this.biFunction = biFunction;
 
@@ -103,10 +88,13 @@ public class AnvilGUI {
         inventory.setItem(Slot.INPUT_LEFT, this.insert);
 
         containerId = WRAPPER.getNextContainerId(holder);
-        WRAPPER.sendPacketOpenWindow(holder, containerId);
+        WRAPPER.sendPacketOpenWindow(holder, containerId, name);
         WRAPPER.setActiveContainer(holder, container);
         WRAPPER.setActiveContainerId(container, containerId);
         WRAPPER.addActiveContainerSlotListener(container, holder);
+
+        // portal custom funcs
+        // WRAPPER.setActiveContainerName(holder, containerId, name);
 
         open = true;
     }
@@ -154,24 +142,6 @@ public class AnvilGUI {
         public void onInventoryClose(InventoryCloseEvent e) {
             if(open && e.getInventory().equals(inventory)) closeInventory();
         }
-
-    }
-
-    /**
-     * Handles the click of the output slot
-     *
-     * @deprecated Since version 1.1, use {@link AnvilGUI(Plugin, Player, String, BiFunction)} instead
-     */
-    @Deprecated
-    public static abstract class ClickHandler {
-
-        /**
-         * Is called when a {@link Player} clicks on the output in the GUI
-         * @param clicker The {@link Player} who clicked the output
-         * @param input What the item was renamed to
-         * @return What to replace the text with, or null to close the inventory
-         */
-        public abstract String onClick(Player clicker, String input);
 
     }
 

@@ -28,7 +28,7 @@ public interface VersionWrapper {
      * @param player The player to send the packet to
      * @param containerId The container id to open
      */
-    void sendPacketOpenWindow(Player player, int containerId);
+    void sendPacketOpenWindow(Player player, int containerId, String name);
 
     /**
      * Sends PacketPlayOutCloseWindow to the player with the contaienr id
@@ -78,4 +78,6 @@ public interface VersionWrapper {
      */
     Object newContainerAnvil(Player player);
 
+    // portal custom funcs
+    //void setActiveContainerName(Player player, int containerId, String name);
 }

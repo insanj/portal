@@ -20,7 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class PortalGun {
     static final String PORTAL_GUN_DISPLAY_NAME = ChatColor.LIGHT_PURPLE + "Portal Gun";
-    static final String PORTAL_GUN_DEFAULT_DESCRIPTION = ChatColor.GREEN + "Right click to create a portal";
+    static final String PORTAL_GUN_DEFAULT_DESCRIPTION = ChatColor.GREEN + "Right click to set destination";
 
 	public static ShapedRecipe getNetherStarRecipe() {
         ItemStack netherStar = getNetherStarItemStack();

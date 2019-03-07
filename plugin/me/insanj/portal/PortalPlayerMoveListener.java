@@ -15,7 +15,7 @@ public class PortalPlayerMoveListener implements Listener {
     public Boolean deactivated = false; // TODO remove
     public final Location origin;
     public final Location destination;
-    public final double threshold = 1;
+    public final double threshold = 3;
     public ArrayList<String> alreadyTeleportedPlayers = new ArrayList<String>();
     public PortalPlayerMoveListener(Location origin, Location destination) {
         this.origin = origin;
@@ -36,7 +36,7 @@ public class PortalPlayerMoveListener implements Listener {
         if (diff <= threshold) {
             Player player = e.getPlayer();
             player.teleport(destination);
-            player.getWorld().playSound(player.getLocation(), Sound.BLOCK_CONDUIT_ACTIVATE, 10, 1);
+            player.getWorld().playSound(player.getLocation(), Sound.BLOCK_PORTAL_TRAVEL, 5, 1);
         }
     }
 }

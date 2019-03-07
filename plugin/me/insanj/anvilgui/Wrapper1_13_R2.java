@@ -30,8 +30,10 @@ public class Wrapper1_13_R2 implements VersionWrapper {
      * {@inheritDoc}
      */
     @Override
-    public void sendPacketOpenWindow(Player player, int containerId) {
-        toNMS(player).playerConnection.sendPacket(new PacketPlayOutOpenWindow(containerId, "minecraft:anvil", new ChatMessage(Blocks.ANVIL.a() + ".name")));
+    public void sendPacketOpenWindow(Player player, int containerId, String name) {
+        //ChatMessage original = new ChatMessage(Blocks.ANVIL.a() + ".name");
+        ChatMessage replacement = new ChatMessage(name, new Object[]{});
+        toNMS(player).playerConnection.sendPacket(new PacketPlayOutOpenWindow(containerId, "minecraft:anvil", replacement, 0));
     }
 
     /**
@@ -112,4 +114,10 @@ public class Wrapper1_13_R2 implements VersionWrapper {
 
     }
 
+    /*
+    @Override
+    public void setActiveContainerName(Player player, int containerId, String name) {
+        toNMS(player).playerConnection.sendPacket(new PacketPlayOutOpenWindow(containerId, "minecraft:anvil", new ChatMessage(name, new Object[]{}), 0));
+    }
+*/
 }
