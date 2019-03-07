@@ -72,7 +72,7 @@ public class PortalGunClickListener implements Listener {
         activatePortal(portalLocation);
 
         // play sound at completion
-        player.playSound(player.getLocation(), Sound.BLOCK_CONDUIT_ACTIVATE, 1F, 1F);
+        player.getWorld().playSound(player.getLocation(), Sound.BLOCK_CONDUIT_ACTIVATE, 10, 1);
     }
 
     public void activatePortal(Location location) {

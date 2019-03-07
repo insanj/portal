@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.Sound;
 
 public class PortalCommandExecutor implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -45,7 +46,10 @@ public class PortalCommandExecutor implements CommandExecutor {
         }
 		
         Inventory inventory = player.getInventory();
-		inventory.addItem(PortalGun.getNetherStarItemStack());
+        inventory.addItem(PortalGun.getNetherStarItemStack());
+        
+        player.getWorld().playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 10, 1);
+
 		return true;
     }
 }

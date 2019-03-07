@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.Sound;
 
 public class PortalPlayerMoveListener implements Listener {	
     public final Location destination;
@@ -20,7 +21,9 @@ public class PortalPlayerMoveListener implements Listener {
         Location playerLocation = e.getPlayer().getLocation();
         double diff = Math.abs(Math.abs(playerLocation.getX() - destination.getX()) + Math.abs(playerLocation.getY() - destination.getY()) + Math.abs(playerLocation.getZ() - destination.getZ()));
         if (diff >= threshold) {
-            e.getPlayer().teleport(destination);
+            Player player = e.getPlayer();
+            player.teleport(destination);
+            player.getWorld().playSound(player.getLocation(), Sound.BLOCK_CONDUIT_DEACTIVATE, 10, 1);
         }
     }
 }
