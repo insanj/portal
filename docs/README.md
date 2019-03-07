@@ -22,15 +22,15 @@ an easy-to-use portal gun for minecraft
   <br/>
 
   <a href="https://jdk.java.net/">
-    <img src="https://img.shields.io/badge/java-10.0.2-red.svg" />
+    <img src="https://img.shields.io/badge/java-10.0.2-yellow.svg" />
   </a>
   
   <a href="https://getbukkit.org/download/craftbukkit">
-    <img src="https://img.shields.io/badge/bukkit-1.13.2-orange.svg" />
+    <img src="https://img.shields.io/badge/bukkit-1.13.2-purple.svg" />
   </a>
   
   <a href="https://bukkit.org/threads/portal-gun.478108/">
-    <img src="https://img.shields.io/badge/🚀-Learn%20more%20on%20bukkit.org-blue.svg" />
+    <img src="https://img.shields.io/badge/🚀-Learn%20more%20on%20bukkit.org-red.svg" />
   </a>
 </p>
 
@@ -42,6 +42,8 @@ an easy-to-use portal gun for minecraft
 
 <br/>
 <h2 align="center">How to Play</h2>
+
+---
 
 ### Step One: Obtaining a Portal Gun
 
@@ -71,6 +73,8 @@ Store as many Portal Guns as you want in your inventory. Each one will stay link
 
 <br/>
 <h2 align="center">What's included</h2>
+
+---
 
 ```
 .
@@ -105,6 +109,8 @@ Store as many Portal Guns as you want in your inventory. Each one will stay link
 <br/>
 <h2 align="center">Authors</h2>
 
+--- 
+
 ```
 Julian Weiss
 me@insanj.com
@@ -113,6 +119,8 @@ github.com/insanj
 
 <br/>
 <h2 align="center">Acknowledgements</h2>
+
+---
 
 ### Related Projects
 - [PortalGun](https://github.com/MrDaniel-TX/PortalGun/) (most recent plugin; forked to create this project)
@@ -123,10 +131,39 @@ github.com/insanj
 - [WorldPortals](https://dev.bukkit.org/projects/world-portals-ng?gameCategorySlug=bukkit-plugins&projectID=283014)
 
 ### Helpful Resources
+- [AnvilGUI](https://github.com/WesJD/AnvilGUI)
 - [Sign GUI](https://bukkit.org/threads/sign-gui-use-the-sign-interface-to-get-user-input.177030/)
 
 <br/>
 <h2 align="center">License</h2>
 
+---
+
 See [LICENSE](https://github.com/insanj/portal/blob/master/LICENSE). (c) 2019 Julian Weiss.
+
+#### AnvilGUI
+
+```
+MIT License
+
+Copyright (c) 2016 Wesley Smith
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
 
