@@ -2,6 +2,7 @@ package me.insanj.portal;
 
 import java.util.ArrayList;
 
+import org.bukkit.Server;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -66,14 +67,20 @@ public class PortalGun {
     }
 
     public static String stringFromLocation(Location location) {
-        return String.format("%.2f,%.2f,%.2f", location.getX(), location.getY(), location.getZ());
+        return String.format("world=%s,x=%.2f,y=%.2f,z=%.2f", location.getWorld().getName(), location.getX(), location.getY(), location.getZ());
     }
 
-    public static Location locationFromString(String string, World world) {
+    public static Location locationFromString(Server server, String string) {
         String[] components = string.split(",");
         try {
-            return new Location(world, Double.parseDouble(components[0]), Double.parseDouble(components[1]), Double.parseDouble(components[2]));
+            World world = server.getWorld(components[0].replace("world=", ""));
+            Double x = Double.parseDouble(components[1].replace("x=", ""));
+            Double y = Double.parseDouble(components[2].replace("y=", ""));
+            Double z = Double.parseDouble(components[3].replace("z=", ""));
+            Location location = new Location(world, x, y, z);
+            return location;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
