@@ -3,6 +3,7 @@ package me.insanj.portal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
+import java.util.function.BiFunction;
 
 import org.bukkit.Location;
 import org.bukkit.ChatColor;
@@ -112,37 +113,125 @@ public class PortalGunClickListener implements Listener {
         }, 100L); // 100 ticks = 5 seconds, because 1 seconds = 20 ticks normally
     }
     
-    public void openSignGUI(PlayerInteractEvent event, Player signPlayer, ItemStack heldItem) {
-        PortalGunClickListener listener = this;
-
-        String defaultText = heldItem.getItemMeta().getLore().get(0); // if existing coords, use those
-        if (defaultText.equals(PortalGun.PORTAL_GUN_DEFAULT_DESCRIPTION)) {
-            defaultText = "world=";
-            defaultText += signPlayer.getWorld().getName();
-            defaultText += ",x=,y=,z=";
-        }
-
-        String portalUITitle = "Set Portal Destination";
-        Portal globalPlugin = this.plugin;
-
-        new AnvilGUI(plugin, signPlayer, portalUITitle, defaultText, (player, reply) -> {
-            if (listener.onSignDone(event, player, reply) == true) {
-                PortalGun.playSound(globalPlugin, player.getLocation(), PortalGun.SoundType.CONFIGURED);
-                return null;
-            }
-            return "Incomplete destination coordinates.";
-        });
+    enum AnvilGUIStep {
+        XCOORDINATE,
+        YCOORDINATE,
+        ZCOORDINATE,
+        WORLDNAME
     }
 
-    public Boolean onSignDone(PlayerInteractEvent event, Player player, String reply) {
+    public void openSignGUI(PlayerInteractEvent event, Player signPlayer, ItemStack heldItem) {
+        Location existingLocation = null;
+        String existingDescription = heldItem.getItemMeta().getLore().get(0); // if existing coords, use those
+        if (existingDescription != null && !existingDescription.equals(PortalGun.PORTAL_GUN_DEFAULT_DESCRIPTION)) {
+            existingLocation = PortalGun.locationFromString(plugin.getServer(), existingDescription);
+        }
+
+        beginSignGUIStep(AnvilGUIStep.XCOORDINATE, null, plugin, signPlayer, existingLocation);
+    }
+
+    public String beginSignGUIStep(AnvilGUIStep step, String[] replies, Plugin plugin, Player signPlayer, Location existingLocation) {
+        PortalGunClickListener listener = this;
+
+        if (step == AnvilGUIStep.XCOORDINATE) {
+            String displayString = "x="; //  existingLocation != null ? ("x=" + Double.toString(existingLocation.getX())) : 
+            buildAnvilGUI(true, plugin, signPlayer, "X Coordinate", displayString, (player, reply) -> {
+                if (listener.validateSignGUIStep(step, plugin, reply) == false) {
+                    return "Type in an x coordinate.";
+                } else {
+                    String[] additionalReplies = new String[]{reply};
+                    beginSignGUIStep(AnvilGUIStep.YCOORDINATE, additionalReplies, plugin, signPlayer, existingLocation);
+                    return null;
+                }
+            });
+        }
+        
+        else if (step == AnvilGUIStep.YCOORDINATE) {
+            String displayString = "y="; // existingLocation != null ? ("y=" + Double.toString(existingLocation.getY())) : 
+            buildAnvilGUI(plugin, signPlayer, "Y Coordinate", displayString, (player, reply) -> {
+                if (listener.validateSignGUIStep(step, plugin, reply) == false) {
+                    return "Type in a y coordinate.";
+                } else {
+                    String[] additionalReplies = new String[]{replies[0], reply};
+                    beginSignGUIStep(AnvilGUIStep.ZCOORDINATE, additionalReplies, plugin, signPlayer, existingLocation);
+                    return null;
+                }
+            });
+        }
+
+        else if (step == AnvilGUIStep.ZCOORDINATE) {
+            String displayString = "z="; // existingLocation != null ? ("z=" + Double.toString(existingLocation.getZ())) :
+            buildAnvilGUI(plugin, signPlayer, "Z Coordinate", displayString, (player, reply) -> {
+                if (listener.validateSignGUIStep(step, plugin, reply) == false) {
+                    return "Type in a z coordinate.";
+                } else {
+                    String[] additionalReplies = new String[]{replies[0], replies[1], reply};
+                    beginSignGUIStep(AnvilGUIStep.WORLDNAME, additionalReplies, plugin, signPlayer, existingLocation);
+                    return null;
+                }
+            });
+        }
+
+        else if (step == AnvilGUIStep.WORLDNAME) {
+            String displayString = "world="; // existingLocation != null ? ("world=" + existingLocation.getWorld().getName()) : "world=";// ("world=" + signPlayer.getWorld().getName());
+            buildAnvilGUI(plugin, signPlayer, "World Name", displayString, (player, reply) -> {
+                if (listener.validateSignGUIStep(step, plugin, reply) == false) {
+                    return "Type in a world name.";
+                } else {
+                    String[] additionalReplies = new String[]{replies[0], replies[1], replies[2], reply};
+                    finishAnvilGUISteps(additionalReplies, plugin, signPlayer);
+                    return null;
+                }
+            });
+        }
+
+        return null; // should never get here
+    }
+
+    public boolean validateSignGUIStep(AnvilGUIStep step, Plugin plugin, String reply) {
+        switch (step) {
+            case XCOORDINATE:
+                return reply.contains("x=") && reply.length() >= 3;
+            case YCOORDINATE:
+                return reply.contains("y=") && reply.length() >= 3;
+            case ZCOORDINATE:
+                return reply.contains("z=") && reply.length() >= 3;
+            case WORLDNAME:
+                return reply.contains("world=");
+            default:
+                return false;
+        }
+    }
+
+    public String finishAnvilGUISteps(String[] replies, Plugin plugin, Player player) {
         try {
-            Location inputLocation = PortalGun.locationFromString(plugin.getServer(), reply);
+            String locationString = String.format("%s,%s,%s,%s", replies[0], replies[1], replies[2], replies[3]);
+            Location inputLocation = PortalGun.locationFromString(plugin.getServer(), locationString);
             ItemStack updatedNetherStarItem = PortalGun.getNetherStarItemStack(inputLocation);
             player.setItemInHand(updatedNetherStarItem);
-            return true;
+            PortalGun.playSound(plugin, player.getLocation(), PortalGun.SoundType.CONFIGURED);
         } catch (Exception e) {
-           // e.printStackTrace();
+            e.printStackTrace();
         }
-        return false;
+
+        return null;
+    }
+
+    public void buildAnvilGUI(Plugin plugin, Player player, String title, String text,  BiFunction<Player, String, String> biFunction) {
+        buildAnvilGUI(false, plugin, player, title, text, biFunction);
+    }
+
+    public void buildAnvilGUI(boolean skip, Plugin plugin, Player player, String title, String text,  BiFunction<Player, String, String> biFunction) {
+        if (skip == true) {
+            new AnvilGUI(plugin, player, title, text, biFunction);
+        } else {
+            BukkitScheduler scheduler = plugin.getServer().getScheduler();
+            scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    new AnvilGUI(plugin, player, title, text, biFunction);
+                }
+            }, 1L);
+        }
     }
 }

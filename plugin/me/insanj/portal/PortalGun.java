@@ -75,10 +75,20 @@ public class PortalGun {
     public static Location locationFromString(Server server, String string) {
         String[] components = string.split(",");
         try {
-            World world = server.getWorld(components[0].replace("world=", ""));
-            Double x = Double.parseDouble(components[1].replace("x=", ""));
-            Double y = Double.parseDouble(components[2].replace("y=", ""));
-            Double z = Double.parseDouble(components[3].replace("z=", ""));
+            World world = null;
+            Double x = null, y = null, z = null;
+            for (String component : components) {
+                if (component.contains("x=")) {
+                    x = Double.parseDouble(component.replace("x=", ""));
+                } else if (component.contains("y=")) {
+                    y = Double.parseDouble(component.replace("y=", ""));
+                } else if (component.contains("z=")) {
+                    z = Double.parseDouble(component.replace("z=", ""));
+                } else if (component.contains("world=")) {
+                    world = server.getWorld(component.replace("world=", ""));
+                }
+            }
+            
             Location location = new Location(world, x, y, z);
             return location;
         } catch (Exception e) {
