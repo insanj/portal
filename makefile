@@ -1,36 +1,41 @@
 SHELL:=/bin/bash
+JAVA_HOME:=/usr/lib/jvm/jdk1.8.0_131
+
+JAVAC_CMD=/usr/lib/jvm/jdk1.8.0_131/bin/javac
+JAR_CMD=/usr/lib/jvm/jdk1.8.0_131/bin/jar
+
+FIND_JAVA_FILES:=$(shell find . -name '*.java')
+GIT_TAG:=$(shell git describe --tags)
 
 OUTPUT_NAME=portal
 SOURCE_PATH=plugin
 BUILD_PATH=build
 EXTERNAL_PATH=external
+SERVER_PATH=server
+
 SPIGOT_JAR_FILENAME=spigot-1.13.2.jar
 CRAFTBUKKIT_JAR_FILENAME=craftbukkit-1.13.2.jar
 JAR_DEPS_PATH=$(EXTERNAL_PATH)/$(SPIGOT_JAR_FILENAME):$(EXTERNAL_PATH)/$(CRAFTBUKKIT_JAR_FILENAME)
-GIT_TAG:=$(shell git describe --tags)
 OUTPUT_VERSIONED_NAME=$(OUTPUT_NAME)-$(GIT_TAG)
-SERVER_PATH=server
-
-FIND_JAVA_FILES := $(shell find . -name '*.java')
 
 .PHONY: all
 all: plugin server
 
 .PHONY: plugin
 plugin:
+	export JAVA_HOME=$(JAVA_HOME)
 	# step 1 clean up / erase old version
 	-rm -r -f $(BUILD_PATH)
 	mkdir $(BUILD_PATH) && mkdir $(BUILD_PATH)/bin
-	# step 2 part 1 compile anvilgui
-	#javac -cp "$(JAR_DEPS_PATH)" -d $(BUILD_PATH)/bin $(SOURCE_PATH)/net/wesjd/anvilgui/*.java
-	# step 2 part 2 compile the plugin into the bin dir
-	javac -cp "$(JAR_DEPS_PATH)" -d $(BUILD_PATH)/bin $(FIND_JAVA_FILES)
+	# step 2 compile the plugin into the bin dir
+	$(JAVAC_CMD) -version
+	$(JAVAC_CMD) -cp "$(JAR_DEPS_PATH)" -d $(BUILD_PATH)/bin $(FIND_JAVA_FILES)
 	#  jar tf external/craftbukkit-1.13.2.jar > hello.txt
 	# step 3 copy config .yml to a new "build in progress" directory
-	-cp -r $(SOURCE_PATH)/*.yml $(BUILD_PATH)/bin/	
+	-cp -r $(SOURCE_PATH)/*.yml $(BUILD_PATH)/bin/
 	# step 4 create JAR file using the "build in progress" folder
-	jar -cvf $(BUILD_PATH)/$(OUTPUT_VERSIONED_NAME).jar -C $(BUILD_PATH)/bin .
-
+	$(JAR_CMD) -cvf $(BUILD_PATH)/$(OUTPUT_VERSIONED_NAME).jar -C $(BUILD_PATH)/bin .
+	#  javap -verbose build/bin/me/insanj/portal/Portal.class
 
 .PHONY: clean
 clean:
