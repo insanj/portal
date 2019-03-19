@@ -33,8 +33,8 @@ an easy-to-use portal gun for minecraft
     <img src="https://img.shields.io/badge/bukkit-1.13.2-purple.svg" />
   </a>
   
-  <a href="https://bukkit.org/threads/portal-gun.478108/">
-    <img src="https://img.shields.io/badge/🚀-Learn%20more%20on%20bukkit.org-red.svg" />
+  <a href="https://dev.bukkit.org/projects/portal-for-1-13">
+    <img src="https://img.shields.io/badge/🚀-Download%20on%20Bukkit-red.svg" />
   </a>
 </p>
 
