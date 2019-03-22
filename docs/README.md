@@ -3,14 +3,14 @@
 <br/><br/>
 portal
 <br/>
-an easy-to-use portal gun for minecraft
+craftable nether star portal guns
 </h3>
 
 <p align="center">
   <a href="https://github.com/insanj/portal/releases">
     <img src="https://img.shields.io/github/release/insanj/portal.svg" />
   </a>
-  
+
   <a href="https://github.com/insanj/portal/releases">
     <img src="https://img.shields.io/github/release-date/insanj/portal.svg" />
   </a>
@@ -24,15 +24,15 @@ an easy-to-use portal gun for minecraft
   <a href="https://github.com/insanj/portal/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/insanj/portal.svg" />
   </a>
-  
+
   <a href="https://jdk.java.net/">
     <img src="https://img.shields.io/badge/java-8-yellow.svg" />
   </a>
-  
+
   <a href="https://getbukkit.org/download/craftbukkit">
     <img src="https://img.shields.io/badge/bukkit-1.13.2-purple.svg" />
   </a>
-  
+
   <a href="https://dev.bukkit.org/projects/portal-for-1-13">
     <img src="https://img.shields.io/badge/🚀-Download%20on%20Bukkit-red.svg" />
   </a>
@@ -78,7 +78,7 @@ Click the completed item to set the destination of your Portal Gun.
 
 ### Step Four: Opening up a portal
 
-Once you have set the destination of your Portal Gun, left click anywhere to open up a portal! The portal will immediately appear as green "Happy Villager" particles. 
+Once you have set the destination of your Portal Gun, left click anywhere to open up a portal! The portal will immediately appear as green "Happy Villager" particles.
 
 Unlike Nether Portals or End Portals, the Portal Gun openings only last for **five seconds**. Hurry up and jump through, before it closes, to instantly be teleported to the destination programmed into your Portal Gun!
 
@@ -105,8 +105,7 @@ Store as many Portal Guns as you want in your inventory. Each one will stay link
 │   │   └── plugin.yml
 │   └── portal-version.jar
 ├── external -- External dependancies directory. You have to download these open source JARs and place them here; or change the PATH in the makefile.
-│   ├── craftbukkit-1.13.2.jar
-│   └── spigot-1.13.2.jar
+│   └── craftbukkit-1.13.2.jar
 ├── plugin -- Source code directory, structured as a standard Java package.
 │   ├── me
 │   │   └── insanj
@@ -205,4 +204,3 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
-

@@ -24,13 +24,14 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.Sound;
+import org.bukkit.World;
 
-public class PortalGunClickListener implements Listener {	
+public class PortalGunClickListener implements Listener {
     public final static String PORTAL_ERROR_NO_FUEL = ChatColor.RED + "Portal Gun out of fuel! Get more Ender Pearls to use.";
     public final static String PORTAL_ERROR_NEED_TO_SETUP = ChatColor.RED + "Portal Gun has no destination yet. Right click with it in hand to set one up first!";
-    public final Portal plugin;
-    
-    public PortalGunClickListener(Portal plugin) {
+    public final PortalPlugin plugin;
+
+    public PortalGunClickListener(PortalPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -46,12 +47,12 @@ public class PortalGunClickListener implements Listener {
         if (heldItem == null || heldItem.getItemMeta() == null || heldItem.getItemMeta().getDisplayName() == null) {
             return; // nothing to see here, no item in hand!
         }
-        
+
         String heldItemDisplayName = heldItem.getItemMeta().getDisplayName();
         if (heldItemDisplayName.equals(PortalGun.PORTAL_GUN_DISPLAY_NAME)) {
             if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
                 openSignGUI(e, player, heldItem);
-            } 
+            }
             else if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
                 if (heldItem.getItemMeta().getLore().get(0).equals(PortalGun.PORTAL_GUN_DEFAULT_DESCRIPTION)) {
                     player.sendMessage(PortalGunClickListener.PORTAL_ERROR_NEED_TO_SETUP);
@@ -76,15 +77,7 @@ public class PortalGunClickListener implements Listener {
         Location portalLocation = event.getClickedBlock().getLocation();
 
         // particle effect
-        int particleCount = 10;
-        int particleSize = 4;
-        for (int x = 0; x < particleSize; x++) {
-            for (int y = 0; y < particleSize; y++) {
-                for (int z = 0; z < particleSize; z++) {
-                    player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, portalLocation, particleCount, x, y, z);
-                }
-            }
-        }
+        renderPortalEffects(portalLocation);
 
         // activate for 5 seconds
         activatePortal(portalLocation, destination);
@@ -94,6 +87,19 @@ public class PortalGunClickListener implements Listener {
 
         // play sound at completion
         PortalGun.playSound(plugin, portalLocation, PortalGun.SoundType.ACTIVATED);
+    }
+
+    public void renderPortalEffects(Location location) {
+      World world = location.getWorld();
+      int particleCount = 10;
+      int particleSize = 4;
+      for (int x = 0; x < particleSize; x++) {
+          for (int y = 0; y < particleSize; y++) {
+              for (int z = 0; z < particleSize; z++) {
+                  world.spawnParticle(Particle.VILLAGER_HAPPY, location, particleCount, x, y, z);
+              }
+          }
+      }
     }
 
     public void activatePortal(Location origin, Location destination) {
@@ -112,7 +118,7 @@ public class PortalGunClickListener implements Listener {
             }
         }, 100L); // 100 ticks = 5 seconds, because 1 seconds = 20 ticks normally
     }
-    
+
     enum AnvilGUIStep {
         XCOORDINATE,
         YCOORDINATE,
@@ -134,7 +140,7 @@ public class PortalGunClickListener implements Listener {
         PortalGunClickListener listener = this;
 
         if (step == AnvilGUIStep.XCOORDINATE) {
-            String displayString = "x="; //  existingLocation != null ? ("x=" + Double.toString(existingLocation.getX())) : 
+            String displayString = "x="; //  existingLocation != null ? ("x=" + Double.toString(existingLocation.getX())) :
             buildAnvilGUI(true, plugin, signPlayer, "X Coordinate", displayString, (player, reply) -> {
                 if (listener.validateSignGUIStep(step, plugin, reply) == false) {
                     return "Type in an x coordinate.";
@@ -145,9 +151,9 @@ public class PortalGunClickListener implements Listener {
                 }
             });
         }
-        
+
         else if (step == AnvilGUIStep.YCOORDINATE) {
-            String displayString = "y="; // existingLocation != null ? ("y=" + Double.toString(existingLocation.getY())) : 
+            String displayString = "y="; // existingLocation != null ? ("y=" + Double.toString(existingLocation.getY())) :
             buildAnvilGUI(plugin, signPlayer, "Y Coordinate", displayString, (player, reply) -> {
                 if (listener.validateSignGUIStep(step, plugin, reply) == false) {
                     return "Type in a y coordinate.";

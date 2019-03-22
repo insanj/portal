@@ -13,9 +13,8 @@ BUILD_PATH=build
 EXTERNAL_PATH=external
 SERVER_PATH=server
 
-SPIGOT_JAR_FILENAME=spigot-1.13.2.jar
 CRAFTBUKKIT_JAR_FILENAME=craftbukkit-1.13.2.jar
-JAR_DEPS_PATH=$(EXTERNAL_PATH)/$(SPIGOT_JAR_FILENAME):$(EXTERNAL_PATH)/$(CRAFTBUKKIT_JAR_FILENAME)
+JAR_DEPS_PATH=$(EXTERNAL_PATH)/$(CRAFTBUKKIT_JAR_FILENAME)
 OUTPUT_VERSIONED_NAME=$(OUTPUT_NAME)-$(GIT_TAG)
 
 .PHONY: all
@@ -28,9 +27,7 @@ plugin:
 	-rm -r -f $(BUILD_PATH)
 	mkdir $(BUILD_PATH) && mkdir $(BUILD_PATH)/bin
 	# step 2 compile the plugin into the bin dir
-	$(JAVAC_CMD) -version
 	$(JAVAC_CMD) -cp "$(JAR_DEPS_PATH)" -d $(BUILD_PATH)/bin $(FIND_JAVA_FILES)
-	#  jar tf external/craftbukkit-1.13.2.jar > hello.txt
 	# step 3 copy config .yml to a new "build in progress" directory
 	-cp -r $(SOURCE_PATH)/*.yml $(BUILD_PATH)/bin/
 	# step 4 create JAR file using the "build in progress" folder
@@ -43,10 +40,11 @@ clean:
 	-rm -r -f $(SERVER_PATH)
 	mkdir $(SERVER_PATH) && mkdir $(SERVER_PATH)/plugins
 	echo "eula=true" > $(SERVER_PATH)/eula.txt
+	cp -R $(EXTERNAL_PATH)/$(CRAFTBUKKIT_JAR_FILENAME) $(SERVER_PATH)/$(CRAFTBUKKIT_JAR_FILENAME)
 
 .PHONY: server
 server:
 	# step 6 copy the JAR file into the server to run it!
-	cp -R $(EXTERNAL_PATH)/$(CRAFTBUKKIT_JAR_FILENAME) $(SERVER_PATH)/$(CRAFTBUKKIT_JAR_FILENAME)
-	cp -R $(BUILD_PATH)/$(OUTPUT_VERSIONED_NAME).jar $(SERVER_PATH)/plugins/$(OUTPUT_VERSIONED_NAME).jar
+	-rm -r $(SERVER_PATH)/plugins/$(OUTPUT_NAME)*.jar
+	cp -R $(BUILD_PATH)/$(OUTPUT_VERSIONED_NAME).jar $(SERVER_PATH)/plugins/
 	cd $(SERVER_PATH) && java -Xms1G -Xmx1G -jar -DIReallyKnowWhatIAmDoingISwear $(CRAFTBUKKIT_JAR_FILENAME)

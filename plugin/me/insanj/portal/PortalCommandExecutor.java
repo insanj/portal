@@ -15,12 +15,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.Sound;
 
 public class PortalCommandExecutor implements CommandExecutor {
-    public final Portal plugin;
-    public PortalCommandExecutor(Portal plugin) {
+    public final PortalPlugin plugin;
+    public PortalCommandExecutor(PortalPlugin plugin) {
         this.plugin = plugin;
     }
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+  	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player player = null;
         if (args.length <= 0) {
             if (sender instanceof Player) {
@@ -49,12 +49,12 @@ public class PortalCommandExecutor implements CommandExecutor {
             sender.sendMessage(ChatColor.RED + "You must be an operator to spawn a Portal Gun.");
             return true;
         }
-		
+
         Inventory inventory = player.getInventory();
         inventory.addItem(PortalGun.getNetherStarItemStack());
-        
+
         PortalGun.playSound(plugin, player.getLocation(), PortalGun.SoundType.RECEIVED);
 
-		return true;
+    		return true;
     }
 }

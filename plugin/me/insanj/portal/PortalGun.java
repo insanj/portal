@@ -24,30 +24,30 @@ public class PortalGun {
     static final String PORTAL_GUN_DISPLAY_NAME = ChatColor.RED + "Portal Gun";
     static final String PORTAL_GUN_DEFAULT_DESCRIPTION = ChatColor.GREEN + "Right click to set destination";
 
-	public static ShapedRecipe getNetherStarRecipe() {
+  	public static ShapedRecipe getNetherStarRecipe() {
         ItemStack netherStar = getNetherStarItemStack();
         ShapedRecipe shapedRecipe = new ShapedRecipe(netherStar);
-		shapedRecipe.shape("*-*","*,/","..*");
-		shapedRecipe.setIngredient('*', Material.AIR);
-		shapedRecipe.setIngredient('-', Material.EMERALD_BLOCK);
-		shapedRecipe.setIngredient(',', Material.DIAMOND_BLOCK);
-		shapedRecipe.setIngredient('/', Material.REDSTONE_BLOCK);
+    		shapedRecipe.shape("*-*","*,/","..*");
+    		shapedRecipe.setIngredient('*', Material.AIR);
+    		shapedRecipe.setIngredient('-', Material.EMERALD_BLOCK);
+    		shapedRecipe.setIngredient(',', Material.DIAMOND_BLOCK);
+    		shapedRecipe.setIngredient('/', Material.REDSTONE_BLOCK);
         shapedRecipe.setIngredient('.', Material.IRON_BLOCK);
         return shapedRecipe;
     }
-    
+
     public static ItemStack getNetherStarItemStack() {
         ItemStack item = new ItemStack(Material.NETHER_STAR, 1);
         String displayName = PortalGun.PORTAL_GUN_DISPLAY_NAME;
         String itemDescription = PortalGun.PORTAL_GUN_DEFAULT_DESCRIPTION;
 
-		ItemMeta meta = item.getItemMeta();
+    		ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(displayName);
-        
-		ArrayList<String> lore = new ArrayList<String>();
-		lore.add(itemDescription);
+
+    		ArrayList<String> lore = new ArrayList<String>();
+    		lore.add(itemDescription);
         meta.setLore(lore);
-        
+
         item.setItemMeta(meta);
         return item;
     }
@@ -57,13 +57,13 @@ public class PortalGun {
         String displayName = PortalGun.PORTAL_GUN_DISPLAY_NAME;
         String itemDescription = PortalGun.stringFromLocation(destination);
 
-		ItemMeta meta = item.getItemMeta();
+    		ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(displayName);
-        
-		ArrayList<String> lore = new ArrayList<String>();
-		lore.add(itemDescription);
+
+    		ArrayList<String> lore = new ArrayList<String>();
+    		lore.add(itemDescription);
         meta.setLore(lore);
-        
+
         item.setItemMeta(meta);
         return item;
     }
@@ -88,7 +88,7 @@ public class PortalGun {
                     world = server.getWorld(component.replace("world=", ""));
                 }
             }
-            
+
             Location location = new Location(world, x, y, z);
             return location;
         } catch (Exception e) {

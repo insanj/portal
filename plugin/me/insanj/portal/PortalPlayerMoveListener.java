@@ -11,13 +11,13 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.Sound;
 
-public class PortalPlayerMoveListener implements Listener {	
+public class PortalPlayerMoveListener implements Listener {
     public Boolean deactivated = false; // TODO remove
     public final Location origin;
     public final Location destination;
     public final double threshold = 3;
-    public final Portal plugin;
-    public PortalPlayerMoveListener(Portal plugin, Location origin, Location destination) {
+    public final PortalPlugin plugin;
+    public PortalPlayerMoveListener(PortalPlugin plugin, Location origin, Location destination) {
         this.plugin = plugin;
         this.origin = origin;
         this.destination = destination;
