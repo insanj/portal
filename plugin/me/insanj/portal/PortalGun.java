@@ -113,24 +113,10 @@ public class PortalGun {
                 world.playSound(location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 1);
                 break;
             case ACTIVATED:
-                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 3, 0L);
-                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 3, 1L);
-                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 1, 2L);
-                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 1, 3L);
-                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 3, 4L);
-                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 3, 5L);
-                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 1, 6L);
-                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 1, 7L);
+                world.playSound(location, Sound.ENTITY_ZOMBIE_CONVERTED_TO_DROWNED, 5, 0);
                 break;
             case TELEPORTED:
-                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, -3, 0L);
-                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, -3, 1L);
-                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, -2, 2L);
-                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, -2, 3L);
-                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, -3, 4L);
-                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, -3, 5L);
-                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, -2, 6L);
-                playSoundAfterDelay(plugin, location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, -2, 7L);
+                world.playSound(location, Sound.ENTITY_BOAT_PADDLE_WATER, 5, 0);
                 break;
         }
     }

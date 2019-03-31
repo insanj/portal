@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.function.BiFunction;
 
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -14,6 +15,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
+import org.bukkit.Particle.DustOptions;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.inventory.ShapedRecipe;
@@ -30,6 +32,7 @@ public class PortalGunClickListener implements Listener {
     public final static String PORTAL_ERROR_NO_FUEL = ChatColor.RED + "Portal Gun out of fuel! Get more Ender Pearls to use.";
     public final static String PORTAL_ERROR_NEED_TO_SETUP = ChatColor.RED + "Portal Gun has no destination yet. Right click with it in hand to set one up first!";
     public final PortalPlugin plugin;
+    private final long portalDuration = 100L; // 100 ticks = 5 seconds, because 1 seconds = 20 ticks normally
 
     public PortalGunClickListener(PortalPlugin plugin) {
         this.plugin = plugin;
@@ -91,14 +94,32 @@ public class PortalGunClickListener implements Listener {
 
     public void renderPortalEffects(Location location) {
       World world = location.getWorld();
-      int particleCount = 10;
-      int particleSize = 4;
-      for (int x = 0; x < particleSize; x++) {
-          for (int y = 0; y < particleSize; y++) {
-              for (int z = 0; z < particleSize; z++) {
-                  world.spawnParticle(Particle.VILLAGER_HAPPY, location, particleCount, x, y, z);
+      double x = location.getX();
+      double y = location.getY() + 2.0;
+      double z = location.getZ();
+      Location centerPoint = new Location(world, x, y, z);
+
+      // center of circle
+      world.spawnParticle(Particle.VILLAGER_HAPPY, centerPoint, 3);
+
+      BukkitScheduler scheduler = plugin.getServer().getScheduler();
+      double r = 2.0;
+      for (long delay = 1L; delay < portalDuration; delay = delay + 5L) {
+        for (double i = 0; i < 360; i += 10) {
+          double x1 = r * Math.cos(i * Math.PI / 180);
+          double y1 = r * Math.sin(i * Math.PI / 180);
+        //  int red = (int) (Math.random() * (upper - lower)) + lower;
+        //  int green = (int) (Math.random() * (upper - lower)) + lower;
+       //   int blue = (int) (Math.random() * (upper - lower)) + lower;
+          DustOptions data = new DustOptions(Color.PURPLE, 1.0F);
+
+          scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
+              @Override
+              public void run() {
+                  world.spawnParticle(Particle.REDSTONE, centerPoint, 1, x1, y1, 0, data);
               }
-          }
+          }, delay);
+        }
       }
     }
 
@@ -116,7 +137,7 @@ public class PortalGunClickListener implements Listener {
                 HandlerList.unregisterAll(moveListener);
                 moveListener.deactivated = true;
             }
-        }, 100L); // 100 ticks = 5 seconds, because 1 seconds = 20 ticks normally
+        }, portalDuration); // 100 ticks = 5 seconds, because 1 seconds = 20 ticks normally
     }
 
     enum AnvilGUIStep {
