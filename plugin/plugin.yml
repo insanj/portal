@@ -3,7 +3,7 @@ description: portal gun in minecraft
 author: insanj
 website: https://github.com/insanj/portal
 main: me.insanj.portal.PortalPlugin
-version: 1.2.1
+version: 1.2
 commands:
   portalgun:
     description: Gives player a portal gun
