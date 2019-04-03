@@ -133,25 +133,6 @@ public class PortalGunClickListener implements Listener {
             world.spawnParticle(Particle.REDSTONE, blockToAdd.getBlockX(), blockToAdd.getBlockY() + 2, blockToAdd.getBlockZ(), 0, 0, 0, 0, data);
           }
 
-          /*
-          double orgX = projectileStartingLocation.getX();
-          double orgY = projectileStartingLocation.getY();
-          double orgZ = projectileStartingLocation.getZ();
-
-          double xDelta = targetedLocation.getX() > orgX ? 1 : -1;
-          double yDelta = targetedLocation.getY() > orgY ? 1 : -1;
-          double zDelta = targetedLocation.getZ() > orgZ ? 1 : -1;
-
-
-          for (double x = orgX; Math.abs(x - targetedLocation.getX()) > 1; x=x+xDelta) {
-            for (double y = orgY; Math.abs(y - targetedLocation.getY()) > 1; y=y+yDelta) {
-              for (double z = orgZ; Math.abs(z - targetedLocation.getZ()) > 1; z=z+zDelta) {
-                world.spawnParticle(Particle.REDSTONE, x, y, z, 0, 0, 0, 0, data);
-              }
-            }
-          }
-        */
-
           renderPortalEffects(event, targetedLocation);
           activatePortal(targetedLocation, destination);
         }
@@ -171,7 +152,8 @@ public class PortalGunClickListener implements Listener {
           @Override
           public void run() {
             int radius = 2;
-            for(double y = 0; y <= 50; y+=0.05) {
+            double helixHeight = 10.0;
+            for(double y = 0; y <= helixHeight; y+=0.1) {
                 double x = radius * Math.cos(y);
                 double z = radius * Math.sin(y);
                 world.spawnParticle(Particle.VILLAGER_HAPPY, (float) (centerPoint.getX() + x), (float) (centerPoint.getY() + y), (float) (centerPoint.getZ() + z), 0, 0, 0, 0, 1);
