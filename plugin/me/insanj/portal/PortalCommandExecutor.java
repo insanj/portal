@@ -55,6 +55,6 @@ public class PortalCommandExecutor implements CommandExecutor {
 
         PortalGun.playSound(plugin, player.getLocation(), PortalGun.SoundType.RECEIVED);
 
-    		return true;
+        return true;
     }
 }

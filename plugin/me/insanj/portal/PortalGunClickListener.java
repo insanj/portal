@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.function.BiFunction;
-
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+ 
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.ChatColor;
@@ -30,6 +32,9 @@ import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.util.Vector;
 
 public class PortalGunClickListener implements Listener {
     public final static String PORTAL_ERROR_NO_FUEL = ChatColor.RED + "Portal Gun out of fuel! Get more Ender Pearls to use.";
@@ -111,24 +116,41 @@ public class PortalGunClickListener implements Listener {
         else {
           Block targetedBlock = player.getTargetBlock(null, 100);
           Location targetedLocation = targetedBlock.getLocation();
-
-          double xDelta = targetedLocation.getX() > projectileStartingLocation.getX() ? 1 : -1;
-          double yDelta = targetedLocation.getY() > projectileStartingLocation.getY() ? 1 : -1;
-          double zDelta = targetedLocation.getZ() > projectileStartingLocation.getZ() ? 1 : -1;
-          DustOptions data = new DustOptions(Color.PURPLE, 1.0F);
+          DustOptions data = new DustOptions(Color.GREEN, 1.0F);
           World world = targetedLocation.getWorld();
 
-          for (double x = projectileStartingLocation.getX(); x < targetedLocation.getX(); x=x+xDelta) {
-            world.spawnParticle(Particle.REDSTONE, projectileStartingLocation, 1, x, 0, 0, 0, data);
+          PortalGun.playSound(plugin, projectileStartingLocation, PortalGun.SoundType.PROJECTILE);
+
+          Vector startingVector = projectileStartingLocation.toVector();
+          Vector finishedVector = new Vector(targetedLocation.getBlockX()-projectileStartingLocation.getBlockX(), targetedLocation.getBlockY()-projectileStartingLocation.getBlockY(), targetedLocation.getBlockZ()-projectileStartingLocation.getBlockZ());
+          int vectorDistance = (int) Math.floor(projectileStartingLocation.distance(targetedLocation));
+
+          LocationIterator blocksToAdd = new LocationIterator(world, startingVector, finishedVector, 0, vectorDistance);
+
+          Location blockToAdd;
+          while (blocksToAdd.hasNext()) {
+            blockToAdd = blocksToAdd.next();
+            world.spawnParticle(Particle.REDSTONE, blockToAdd.getBlockX(), blockToAdd.getBlockY() + 2, blockToAdd.getBlockZ(), 0, 0, 0, 0, data);
           }
 
-          for (double y = projectileStartingLocation.getY(); y < targetedLocation.getY(); y=y+yDelta) {
-            world.spawnParticle(Particle.REDSTONE, projectileStartingLocation, 1, 0, y, 0, 0, data);
-          }
+          /*
+          double orgX = projectileStartingLocation.getX();
+          double orgY = projectileStartingLocation.getY();
+          double orgZ = projectileStartingLocation.getZ();
 
-          for (double z = projectileStartingLocation.getZ(); z < targetedLocation.getZ(); z=z+zDelta) {
-            world.spawnParticle(Particle.REDSTONE, projectileStartingLocation, 1, 0, 0, z, 0, data);
+          double xDelta = targetedLocation.getX() > orgX ? 1 : -1;
+          double yDelta = targetedLocation.getY() > orgY ? 1 : -1;
+          double zDelta = targetedLocation.getZ() > orgZ ? 1 : -1;
+
+
+          for (double x = orgX; Math.abs(x - targetedLocation.getX()) > 1; x=x+xDelta) {
+            for (double y = orgY; Math.abs(y - targetedLocation.getY()) > 1; y=y+yDelta) {
+              for (double z = orgZ; Math.abs(z - targetedLocation.getZ()) > 1; z=z+zDelta) {
+                world.spawnParticle(Particle.REDSTONE, x, y, z, 0, 0, 0, 0, data);
+              }
+            }
           }
+        */
 
           renderPortalEffects(event, targetedLocation);
           activatePortal(targetedLocation, destination);
@@ -138,19 +160,24 @@ public class PortalGunClickListener implements Listener {
     public void renderPortalEffects(PlayerInteractEvent event, Location location) {
       World world = location.getWorld();
       double x = location.getX();
-      double y = location.getY();
+      double y = location.getY() + 2.0;
       double z = location.getZ();
       Location centerPoint = new Location(world, x, y, z);
 
       // center of circle
-      world.spawnParticle(Particle.VILLAGER_HAPPY, centerPoint, 3);
-
-      double r = 3.0;
-      DustOptions data = new DustOptions(Color.PURPLE, 1.0F);
-      for (double i = 0; i < 360; i += 1) {
-        double x1 = r * Math.cos(i * Math.PI / 180);
-        double y1 = r * Math.sin(i * Math.PI / 180);
-        world.spawnParticle(Particle.REDSTONE, centerPoint, 1, x1, y1, 0, data);
+      BukkitScheduler scheduler = plugin.getServer().getScheduler();
+      for (long d = 0; d < portalDuration; d=d+25L) {
+        scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
+          @Override
+          public void run() {
+            int radius = 2;
+            for(double y = 0; y <= 50; y+=0.05) {
+                double x = radius * Math.cos(y);
+                double z = radius * Math.sin(y);
+                world.spawnParticle(Particle.VILLAGER_HAPPY, (float) (centerPoint.getX() + x), (float) (centerPoint.getY() + y), (float) (centerPoint.getZ() + z), 0, 0, 0, 0, 1);
+            }
+          }
+        }, d);
       }
 
       // done! play sound

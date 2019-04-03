@@ -134,19 +134,13 @@ github.com/insanj
 
 ---
 
-### Related Projects
-- [PortalGun](https://github.com/MrDaniel-TX/PortalGun/) (most recent plugin; forked to create this project)
-- [MC Portals](https://dev.bukkit.org/projects/mc-portals?gameCategorySlug=bukkit-plugins&projectID=309181)
-- [TravelPortals](https://dev.bukkit.org/projects/travelportals/pages/how-to-make-a-portal)
-- [Portal Gun](https://dev.bukkit.org/projects/portal-gun)
-- [BuildPortals](https://dev.bukkit.org/projects/buildportals?gameCategorySlug=bukkit-plugins&projectID=99352)
-- [WorldPortals](https://dev.bukkit.org/projects/world-portals-ng?gameCategorySlug=bukkit-plugins&projectID=283014)
-
-### Helpful Resources
+- [PortalGun](https://github.com/MrDaniel-TX/PortalGun/)
 - [AnvilGUI](https://github.com/WesJD/AnvilGUI)
 - [Sign GUI](https://bukkit.org/threads/sign-gui-use-the-sign-interface-to-get-user-input.177030/)
 - [Renaming an Anvil Inventory](https://www.spigotmc.org/threads/rnaming-a-anvil-inventory-with-nms-in-1-12-2.327481/)
-- https://www.spigotmc.org/wiki/colored-particles/
+- [Colored Particles](https://www.spigotmc.org/wiki/colored-particles/)
+- [Helix Spiral](https://bukkit.org/threads/1-8-particle-lesson-1-helix-spiral.408264/)
+- [Location Iterator (Drawing a Line)](https://bukkit.org/threads/drawing-line-of-blocks-between-two-locations.55426/)
 
 <br/>
 <h2 align="center"><a href="https://github.com/insanj/portal/blob/master/LICENSE">License</a></h2>

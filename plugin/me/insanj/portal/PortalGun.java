@@ -27,11 +27,11 @@ public class PortalGun {
   	public static ShapedRecipe getNetherStarRecipe() {
         ItemStack netherStar = getNetherStarItemStack();
         ShapedRecipe shapedRecipe = new ShapedRecipe(netherStar);
-    		shapedRecipe.shape("*-*","*,/","..*");
-    		shapedRecipe.setIngredient('*', Material.AIR);
-    		shapedRecipe.setIngredient('-', Material.EMERALD_BLOCK);
-    		shapedRecipe.setIngredient(',', Material.DIAMOND_BLOCK);
-    		shapedRecipe.setIngredient('/', Material.REDSTONE_BLOCK);
+        shapedRecipe.shape("*-*","*,/","..*");
+        shapedRecipe.setIngredient('*', Material.AIR);
+        shapedRecipe.setIngredient('-', Material.EMERALD_BLOCK);
+        shapedRecipe.setIngredient(',', Material.DIAMOND_BLOCK);
+        shapedRecipe.setIngredient('/', Material.REDSTONE_BLOCK);
         shapedRecipe.setIngredient('.', Material.IRON_BLOCK);
         return shapedRecipe;
     }
@@ -41,11 +41,11 @@ public class PortalGun {
         String displayName = PortalGun.PORTAL_GUN_DISPLAY_NAME;
         String itemDescription = PortalGun.PORTAL_GUN_DEFAULT_DESCRIPTION;
 
-    		ItemMeta meta = item.getItemMeta();
+    	ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(displayName);
 
-    		ArrayList<String> lore = new ArrayList<String>();
-    		lore.add(itemDescription);
+    	ArrayList<String> lore = new ArrayList<String>();
+    	lore.add(itemDescription);
         meta.setLore(lore);
 
         item.setItemMeta(meta);
@@ -57,11 +57,11 @@ public class PortalGun {
         String displayName = PortalGun.PORTAL_GUN_DISPLAY_NAME;
         String itemDescription = PortalGun.stringFromLocation(destination);
 
-    		ItemMeta meta = item.getItemMeta();
+    	ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(displayName);
 
-    		ArrayList<String> lore = new ArrayList<String>();
-    		lore.add(itemDescription);
+    	ArrayList<String> lore = new ArrayList<String>();
+    	lore.add(itemDescription);
         meta.setLore(lore);
 
         item.setItemMeta(meta);
@@ -101,7 +101,8 @@ public class PortalGun {
         RECEIVED,
         CONFIGURED,
         ACTIVATED,
-        TELEPORTED
+        TELEPORTED,
+        PROJECTILE
     }
 
     public static void playSound(Plugin plugin, Location location, SoundType type) {
@@ -113,10 +114,13 @@ public class PortalGun {
                 world.playSound(location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 1);
                 break;
             case ACTIVATED:
-                world.playSound(location, Sound.ENTITY_ZOMBIE_CONVERTED_TO_DROWNED, 5, 0);
+                world.playSound(location, Sound.BLOCK_CONDUIT_ACTIVATE, 5, 0);
                 break;
             case TELEPORTED:
-                world.playSound(location, Sound.ENTITY_BOAT_PADDLE_WATER, 5, 0);
+                world.playSound(location, Sound.ENTITY_SHULKER_TELEPORT, 5, 0);
+                break;
+            case PROJECTILE:
+                world.playSound(location, Sound.ENTITY_BLAZE_SHOOT, 5, 0);
                 break;
         }
     }
