@@ -44,6 +44,16 @@ craftable nether star portal guns
   Based off of the <a href="https://bukkit.org/threads/portal-gun.478108/">Bukkit reqest forum post</a> made by user <a href="https://bukkit.org/members//shikishima.91268249/">Shikishima</a>.
 </p>
 
+<p align='center'>
+  <img src='https://user-images.githubusercontent.com/951011/55449717-a4387a00-559a-11e9-8b1b-eefa86d097fd.gif' />
+</p>
+
+<details><summary>Click to open up demo GIF in high quality</summary>
+<p align='center'>
+  <iframe src='https://gfycat.com/ifr/GiantSmallHousefly' frameborder='0' scrolling='no' allowfullscreen width='640' height='395' align='center'></iframe>
+</p>
+</details>
+
 <br/>
 <h2 align="center">How to Play</h2>
 
