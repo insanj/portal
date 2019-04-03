@@ -3,17 +3,23 @@ package me.insanj.portal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.function.BiFunction;
-
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+ 
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
+import org.bukkit.Particle.DustOptions;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.inventory.ShapedRecipe;
@@ -25,21 +31,26 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.Sound;
 import org.bukkit.World;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.util.Vector;
 
 public class PortalGunClickListener implements Listener {
     public final static String PORTAL_ERROR_NO_FUEL = ChatColor.RED + "Portal Gun out of fuel! Get more Ender Pearls to use.";
     public final static String PORTAL_ERROR_NEED_TO_SETUP = ChatColor.RED + "Portal Gun has no destination yet. Right click with it in hand to set one up first!";
     public final PortalPlugin plugin;
+    private final long portalDuration = 100L; // 100 ticks = 5 seconds, because 1 seconds = 20 ticks normally
 
     public PortalGunClickListener(PortalPlugin plugin) {
         this.plugin = plugin;
     }
 
-    @EventHandler()
+    @EventHandler // (ignorecancelled=false)
     public void onPlayerInteraction(PlayerInteractEvent e) {
         EquipmentSlot equipmentSlot = e.getHand();
         if (!equipmentSlot.equals(EquipmentSlot.HAND)) {
-            return;
+            return; // unable to get hand for event...
         }
 
         Player player = e.getPlayer();
@@ -48,20 +59,35 @@ public class PortalGunClickListener implements Listener {
             return; // nothing to see here, no item in hand!
         }
 
-        String heldItemDisplayName = heldItem.getItemMeta().getDisplayName();
-        if (heldItemDisplayName.equals(PortalGun.PORTAL_GUN_DISPLAY_NAME)) {
-            if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
-                openSignGUI(e, player, heldItem);
+        ItemMeta meta = heldItem.getItemMeta();
+        String heldItemDisplayName = meta.getDisplayName();
+        List<String> lore = meta.getLore();
+
+        if (!heldItemDisplayName.equals(PortalGun.PORTAL_GUN_DISPLAY_NAME) || lore == null || lore.size() <= 0) {
+          return; // not portal gun item
+        }
+
+        else if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
+            openSignGUI(e, player, heldItem); // open setup interface for right click
+        }
+
+        else if (e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_AIR) {
+            String heldItemDescription = lore.get(0);
+            if (heldItemDescription.equals(PortalGun.PORTAL_GUN_DEFAULT_DESCRIPTION)) {
+                player.sendMessage(PortalGunClickListener.PORTAL_ERROR_NEED_TO_SETUP); // not setup
             }
-            else if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
-                if (heldItem.getItemMeta().getLore().get(0).equals(PortalGun.PORTAL_GUN_DEFAULT_DESCRIPTION)) {
-                    player.sendMessage(PortalGunClickListener.PORTAL_ERROR_NEED_TO_SETUP);
-                } else if (player.getInventory().contains(Material.ENDER_PEARL, 1) == false) {
-                    player.sendMessage(PortalGunClickListener.PORTAL_ERROR_NO_FUEL);
-                } else {
-                    removePortalFuelFromInventory(player);
-                    openPortal(e, player);
-                }
+
+            else if (!heldItemDescription.contains("world=") || !heldItemDescription.contains("x=") || !heldItemDescription.contains("y=") || !heldItemDescription.contains("z=")) {
+                return; // unrecognized item...
+            }
+
+            else if (player.getInventory().contains(Material.ENDER_PEARL, 1) == false) {
+                player.sendMessage(PortalGunClickListener.PORTAL_ERROR_NO_FUEL); // no fuel
+            }
+
+            else {
+                removePortalFuelFromInventory(player); // portal is ready to go!!
+                shootPortalProjectile(e, player);
             }
         }
     }
@@ -71,35 +97,73 @@ public class PortalGunClickListener implements Listener {
         player.getInventory().removeItem​(enderPearl);
     }
 
-    public void openPortal(PlayerInteractEvent event, Player player) {
+    public void shootPortalProjectile(PlayerInteractEvent event, Player player) {
         String netherStarLocationString = player.getItemInHand().getItemMeta().getLore().get(0);
         Location destination = PortalGun.locationFromString(plugin.getServer(), netherStarLocationString);
-        Location portalLocation = event.getClickedBlock().getLocation();
+        Location projectileStartingLocation = player.getLocation();
 
-        // particle effect
-        renderPortalEffects(portalLocation);
+        // spawn at the clicked block specifically, no projectile needed really
+        if (event.getAction() != Action.LEFT_CLICK_AIR) {
+          Location clickedBlockLocation = event.getClickedBlock().getLocation();
+          if (clickedBlockLocation != null) {
+            renderPortalEffects(event, clickedBlockLocation);
+            activatePortal(clickedBlockLocation, destination);
+            return;
+          }
+        }
 
-        // activate for 5 seconds
-        activatePortal(portalLocation, destination);
+        // boom! trace pathway until it reaches destination
+        else {
+          Block targetedBlock = player.getTargetBlock(null, 100);
+          Location targetedLocation = targetedBlock.getLocation();
+          DustOptions data = new DustOptions(Color.GREEN, 1.0F);
+          World world = targetedLocation.getWorld();
 
-        // String logMessage = String.format("activated portal from %s to %s", portalLocation.toString(), destination.toString());
-        // Bukkit.getServer().getLogger().info(logMessage);
+          PortalGun.playSound(plugin, projectileStartingLocation, PortalGun.SoundType.PROJECTILE);
 
-        // play sound at completion
-        PortalGun.playSound(plugin, portalLocation, PortalGun.SoundType.ACTIVATED);
+          Vector startingVector = projectileStartingLocation.toVector();
+          Vector finishedVector = new Vector(targetedLocation.getBlockX()-projectileStartingLocation.getBlockX(), targetedLocation.getBlockY()-projectileStartingLocation.getBlockY(), targetedLocation.getBlockZ()-projectileStartingLocation.getBlockZ());
+          int vectorDistance = (int) Math.floor(projectileStartingLocation.distance(targetedLocation));
+
+          LocationIterator blocksToAdd = new LocationIterator(world, startingVector, finishedVector, 0, vectorDistance);
+
+          Location blockToAdd;
+          while (blocksToAdd.hasNext()) {
+            blockToAdd = blocksToAdd.next();
+            world.spawnParticle(Particle.REDSTONE, blockToAdd.getBlockX(), blockToAdd.getBlockY() + 2, blockToAdd.getBlockZ(), 0, 0, 0, 0, data);
+          }
+
+          renderPortalEffects(event, targetedLocation);
+          activatePortal(targetedLocation, destination);
+        }
     }
 
-    public void renderPortalEffects(Location location) {
+    public void renderPortalEffects(PlayerInteractEvent event, Location location) {
       World world = location.getWorld();
-      int particleCount = 10;
-      int particleSize = 4;
-      for (int x = 0; x < particleSize; x++) {
-          for (int y = 0; y < particleSize; y++) {
-              for (int z = 0; z < particleSize; z++) {
-                  world.spawnParticle(Particle.VILLAGER_HAPPY, location, particleCount, x, y, z);
-              }
+      double x = location.getX();
+      double y = location.getY() + 2.0;
+      double z = location.getZ();
+      Location centerPoint = new Location(world, x, y, z);
+
+      // center of circle
+      BukkitScheduler scheduler = plugin.getServer().getScheduler();
+      for (long d = 0; d < portalDuration; d=d+25L) {
+        scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
+          @Override
+          public void run() {
+            int radius = 2;
+            double helixHeight = 10.0;
+            for(double y = 0; y <= helixHeight; y+=0.1) {
+                double x = radius * Math.cos(y);
+                double z = radius * Math.sin(y);
+                world.spawnParticle(Particle.VILLAGER_HAPPY, (float) (centerPoint.getX() + x), (float) (centerPoint.getY() + y), (float) (centerPoint.getZ() + z), 0, 0, 0, 0, 1);
+            }
           }
+        }, d);
       }
+
+      // done! play sound
+      PortalGun.playSound(plugin, centerPoint, PortalGun.SoundType.ACTIVATED);
     }
 
     public void activatePortal(Location origin, Location destination) {
@@ -116,7 +180,7 @@ public class PortalGunClickListener implements Listener {
                 HandlerList.unregisterAll(moveListener);
                 moveListener.deactivated = true;
             }
-        }, 100L); // 100 ticks = 5 seconds, because 1 seconds = 20 ticks normally
+        }, portalDuration); // 100 ticks = 5 seconds, because 1 seconds = 20 ticks normally
     }
 
     enum AnvilGUIStep {
